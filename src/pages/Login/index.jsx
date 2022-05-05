@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import {useNavigate} from 'react-router-dom'
-import { Button, Container, Divider, FormControl, FormHelperText, Grid, Input, InputLabel, Paper, TextField, Typography } from '@mui/material';
+import { Button, CircularProgress, Container, Divider, FormControl, FormHelperText, Grid, Input, InputLabel, Paper, TextField, Typography } from '@mui/material';
 
 const Login = () => {
 
     const [email, setEmail] = useState('abdoul@gmail.com');
     const [password, setPassword] = useState('bakeli22');
+    const [errorMsg, seterrorMsg] = useState('');
+    const [loader, setloader] = useState(false)
     const navigate = useNavigate();
 
 
-    // useEffect(() => {
-       
-    // })
+    useEffect(() => {
+        
+    })
 
     const login= ()=>{
 
@@ -28,16 +30,22 @@ const Login = () => {
                 })
           }).then((res) => res.json())
             .then((res) => {
+                
+                setloader(true)
                 if (res.access) {
                     localStorage.setItem('tokenDjango', res.access);
-                    window.location.pathname = 'home'
+                    setTimeout(() => {
+                        window.location.pathname = 'home'
+                    }, 1000);
+                    // setloader(false)
                 }else{
-
-                    console.log('object');
-                    // setErrorMessage(true)
-                    // setTimeout(() => {
-                    //   setErrorMessage(false)
-                    // }, 3000);
+                    
+                    seterrorMsg(res.detail)
+                    setTimeout(() => {
+                        seterrorMsg('')
+                        setloader(false)
+                    }, 2000);
+                    
                 }
             })
             .catch((error) => {
@@ -46,10 +54,10 @@ const Login = () => {
     }
 
     return (
-        <Container maxWidth="sm">
-            <Grid container maxWidth='sm' sx={{border:'#009688 solid 0.5px', boxShadow:10, margin:2}} justify = "center">
-                {/* <Grid item justifyContent='center' sx={{bgcolor:'white', boxShadow:10, width:'100vh', marginTop:5}} maxWidth='sm'> */}
-                <FormControl sx={{width:'75%',  margin:'15px auto', boxShadow:8, padding:2}}>
+        <Container maxWidth="sm" sx={{background:'#c8d8c8', pb:25}}>
+            <Grid container maxWidth='sm' sx={{ boxShadow:10, background:'text.secondary'}} justify = "center">
+                
+                <FormControl sx={{width:'75%',  margin:'20px auto', boxShadow:8, padding:2,background:'white'}}>
                     {/* <InputLabel htmlFor="my-input">Email address</InputLabel> */}
                     <TextField 
                         id="outlined-basic" 
@@ -77,15 +85,18 @@ const Login = () => {
                  
                     <Divider />
                     <br />
+                    <Typography align='center' color='error'>
+                            {errorMsg}
+                    </Typography>
                     <Divider />
                     <br />
                     <Typography align='center'>
                             <Button variant="contained" color="success" size='small' onClick={()=>login() }>
-                                Success
+                                Connexion {loader ? <CircularProgress size='1.5rem'  sx={{color:'black', display:{loader}}} />: null}
                             </Button>
                     </Typography>
                 </FormControl>
-                {/* </Grid> */}
+                
             </Grid>
         </Container>
     )

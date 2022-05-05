@@ -16,6 +16,8 @@ import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import PersonOffIcon from '@mui/icons-material/PersonOff';    
+import CommentBankIcon from '@mui/icons-material/CommentBank';       
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import brand from '../../images/brand.png';
@@ -26,7 +28,7 @@ import GroupIcon from '@mui/icons-material/Group';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import ArchiveIcon from '@mui/icons-material/Archive';
 import { makeStyles } from '@mui/styles';
-import { Avatar } from '@mui/material';
+import { Avatar, ListItemButton } from '@mui/material';
 import BadgeAvatars from './avatar';
 
 const Search = styled('div')(({ theme }) => ({
@@ -81,13 +83,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SearchAppBar() {
+export default function SearchAppBar({img, name, role}) {
+
+      // const user = React.useContext(userContext)
       const [state, setState] = React.useState({
         // top: false,
         left: false,
         // bottom: false,
         // right: false,
       });
+      const [currentRoute, setCurrentRoute] = React.useState('')
+      const [selectedIndex, setSelectedIndex] = React.useState(1);
+
       const classes= useStyles();
       let navigate = useNavigate();
     
@@ -98,6 +105,19 @@ export default function SearchAppBar() {
     
         setState({ ...state, [anchor]: open });
       };
+
+      const handleListItemClick = (event, index) => {
+        setSelectedIndex(index);
+      };
+
+      const activeRoute=(e)=>{
+        const path= window.location.pathname.split('/').join('');
+         setCurrentRoute(path)
+         let ids=document.getElementById(`${path}`)
+         ids.style.backgroundColor = 'blue'
+        console.log(ids)
+     
+     }
     
       const list = (anchor) => (
         <Box
@@ -105,54 +125,91 @@ export default function SearchAppBar() {
           role="presentation"
           onClick={toggleDrawer(anchor, false)}
           onKeyDown={toggleDrawer(anchor, false)}
+         
         >
           {/* <Divider color='#009688'/> */}
-          <Divider
+          {/* <Divider
               
               variant="middle"
-          >   </Divider>
+          >   </Divider> */}
           <List>
             {/* {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => ( */}
-              <ListItem button onClick={()=>navigate('home')}>
+              <ListItemButton   
+                selected={selectedIndex === 0}
+                onClick={(event) => {handleListItemClick(event, 0); navigate('home')}}
+              >
                 <ListItemIcon>
                   {/* {index % 2 === 0 ? <InboxIcon /> :  */}
                   <DashboardIcon />
                 </ListItemIcon>
                 Dashboard
                 <ListItemText  />
-              </ListItem>
+              </ListItemButton>
             {/* ))} */}
           </List>
           <Divider />
-          <List>
-          <ListItem button onClick={()=>navigate('user')}>
-                <ListItemIcon>
-               
-                  <GroupIcon />
-                </ListItemIcon>
-                Users
-                <ListItemText  />
-              </ListItem>
-          </List>
+          {
+            role ==='admin' &&
+            <List>
+              <ListItemButton  
+                  
+                  selected={selectedIndex === 1}
+                  onClick={(event) => {handleListItemClick(event, 1); navigate('user')}}
+              >
+                    <ListItemIcon>
+                  
+                      <GroupIcon />
+                    </ListItemIcon>
+                    Users
+                    <ListItemText  />
+              </ListItemButton>
+            </List>
+          }
           <Divider />
           <List style={{marginBottom:'auto'}}>
-              <ListItem button onClick={()=>navigate('cour')}>
+              <ListItemButton 
+                 selected={selectedIndex === 2}
+                 onClick={(event) => {handleListItemClick(event, 2); navigate('cour')}}
+              >
                 <ListItemIcon>            
                   <AutoStoriesIcon />
                 </ListItemIcon>
                 Cours
                 <ListItemText  />
-              </ListItem>
+              </ListItemButton>
           </List>
           <Divider />
+          {
+            role ==='admin' &&
+            <>
+                 <List style={{marginBottom:'auto'}}>
+                    <ListItemButton  
+                      
+                      selected={selectedIndex === 3}
+                      onClick={(event) => {handleListItemClick(event, 3); navigate('archive_users')}}
+                    >
+                      <ListItemIcon>      
+                        <PersonOffIcon />
+                      </ListItemIcon>
+                      UserArchives
+                      <ListItemText  />
+                    </ListItemButton>
+                </List>
+                <Divider />
+            </>
+
+          }
           <List style={{marginBottom:'auto'}}>
-              <ListItem button onClick={()=>navigate('archive')}>
+              <ListItemButton  
+                selected={selectedIndex === 4}
+                onClick={(event) => {handleListItemClick(event, 4); navigate('profile')}}
+              >
                 <ListItemIcon>                 
-                  <ArchiveIcon />
+                  <CommentBankIcon />
                 </ListItemIcon>
-                Archives
+                Profile
                 <ListItemText  />
-              </ListItem>
+              </ListItemButton>
           </List>
         </Box>
       )
@@ -185,8 +242,9 @@ export default function SearchAppBar() {
                 onClose={toggleDrawer(anchor, false)}
               >
                 <Divider
-                className={classes.divider}
-                variant="middle"
+                  className={classes.divider}
+                  variant="middle"
+                  
                 >  
                   <img src={brand} alt="Bakeli" className='App-logo'  style={{padding:0, borderRadius:20, boxShadow:2}}/> 
                 </Divider>
@@ -212,7 +270,7 @@ export default function SearchAppBar() {
               inputProps={{ 'aria-label': 'search' }}
             /> */}
             {/* <Avatar onClick={()=>window.location.pathname=''}>H</Avatar> */}
-            <BadgeAvatars/>
+            <BadgeAvatars img={img} name={name}/>
           {/* </Search> */}
             
         </Toolbar>

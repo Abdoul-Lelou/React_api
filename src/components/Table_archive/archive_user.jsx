@@ -11,14 +11,18 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import CollapsibleTable from '../../components/Table_user';
-import { Grid, CssBaseline, Typography, Container, ListItemAvatar, Avatar } from '@mui/material';
+import { Grid, CssBaseline, Typography, Container, ListItemAvatar, Avatar, styled, Chip, Tooltip } from '@mui/material';
 import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
 import { ThemeProvider } from '@emotion/react';
 import { createTheme, height, width } from '@mui/system';
 import { Paper } from '@mui/material';
-import FormDetailPanel from '../../components/Table_cour';
+// import FormDetailPanel from '../../components/Table_cour';
 import InfiniteScroll from 'react-infinite-scroller';
-import TableCour from '../../components/Table_cour';
+// import TableCour from '../../components/Table_cour';
+// import TableUser from '../../components/Table_user';
+import ArchiveApprenant from './archive_apprenant';
+import ArchiveProffesseur from './archive_proffesseur';
+import { Archive } from '@mui/icons-material';
 // import Title from './title';
 
 
@@ -52,19 +56,13 @@ const UserArchive = () => {
          },
          
    }).then((res) => res.json())
-     .then((res,index) => {
+     .then((res) => {
+        if(res.data)
            setCours(res.data)
-         //   console.log(res);
-         
      })
-     .catch((error) => {
-         console.log(error)
-     });
+     
  }
   
- const Capitalize=(str)=>{
-   return str.charAt(0).toUpperCase() + str.slice(1);
-   }
 
   const cour=()=>{
 
@@ -108,6 +106,13 @@ const UserArchive = () => {
       )
   }
   
+  const Item = styled(Paper)(({ theme }) => ({
+   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+   ...theme.typography.body2,
+   padding: theme.spacing(1),
+   textAlign: 'center',
+   color: theme.palette.text.secondary,
+   }));
 
   
   return(
@@ -118,22 +123,36 @@ const UserArchive = () => {
          {matches ?(
          <Paper elevation={4} >  
             <Grid  container  maxWidth='xl' 
-            style={{  width:'100%', height:'60vh', margin:'0 auto'}} direction="row" rowSpacing={4}
-           >            
-              <Grid item  xs={6} style={{margin: '0', padding:4, }}
-              >
-                 
-                   
-                 <TableCour/>
-
+               style={{  width:'100%', height:'60vh', margin:'0 auto'}} 
+               direction="row"
+               rowSpacing={4}
+            >            
+              <Grid item  xs={6} style={{margin: '0 auto', padding:4, }} >           
+                  <ArchiveProffesseur/>    
               </Grid>
-              {/* <Divider /> */}
+              
               <Grid item sm={6} style={{ padding: 4, margin:'0 auto'}} >
-                  <FormDetailPanel/>
+                 <ArchiveApprenant/>
               </Grid>
- 
+              
+               <Box sx={{ flexGrow: 1 , m:0}}>
+                  <Grid container spacing={0}>
+                  <Grid item xs={12}>
+                     <Item sx={{borderBottom:'green 1px solid'}}>
+                        <Typography variant='subtitle2'>
+                              <Divider >
+                              <Tooltip describeChild title="Archives des proffesseurs et des apprenants.">
+                                 <Chip clickable label="ARCHIVES" />
+                              </Tooltip>
+                           </Divider>
+                        </Typography>
+                     </Item>
+                  </Grid>
+                  </Grid>
+               </Box>
+
             </Grid> 
-             </Paper> 
+         </Paper> 
          ):(
           
           <Grid  container 
@@ -141,10 +160,10 @@ const UserArchive = () => {
           >            
              <Grid item   
              >
-                <FormDetailPanel />  
+                {/* <FormDetailPanel />   */}
              </Grid>
              <Grid item  sx={{marginTop:2, width:'100%'}}>
-                 <FormDetailPanel/>
+                 {/* <FormDetailPanel/> */}
              </Grid>
 
            </Grid> 
@@ -154,5 +173,4 @@ const UserArchive = () => {
     </>
   )
 }
-
 export default UserArchive

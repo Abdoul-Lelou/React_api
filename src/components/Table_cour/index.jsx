@@ -1,31 +1,25 @@
 import React from 'react'
 import InfiniteScroll from 'react-infinite-scroller';
-import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import CollapsibleTable from '../../components/Table_user';
-import { Avatar, CssBaseline, ListItemAvatar, Typography } from '@mui/material';
-import moment from 'moment';
 
-const TableCour = ({disabledUser}) => {
-  const [userDisabled, setUserDisabled] = React.useState('')
+import { Avatar, CssBaseline, Grid, IconButton, Input, InputAdornment, ListItemAvatar, Typography } from '@mui/material';
+import moment from 'moment';
+import { PersonAdd, SearchRounded } from '@mui/icons-material';
+
+const TableCour = () => {
+
   const [cours, setCours] = React.useState('')
+  const [searchInput, setsearchInput] = React.useState('')
 
   const bearer_token= localStorage.getItem('tokenDjango'); 
 
 
   React.useEffect(() => {
     getCours()
-    return () => {
-      setUserDisabled('')
-    }
   }, [])
   
 
@@ -33,24 +27,7 @@ const TableCour = ({disabledUser}) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
-  const getUserArchive=()=>{
-    return fetch("http://localhost:8000/api/user", {
-
-      method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json',
-              'Authorization': `Bearer ${bearer_token}`
-          }
-        
-      }).then((res) => res.json())
-        .then((res,index) => {
-              setUserDisabled(res.filter(x=> !x.is_active && !x.is_archive))   
-        })
-        .catch((error) => {
-            console.log(error)
-        });
-  }  
+  
 
   const getCours=()=>{
       
@@ -75,6 +52,19 @@ const TableCour = ({disabledUser}) => {
       });
   }
    
+//   const filterSearch=()=>{
+//     let dataFind= [],srchCapital='',courCapital='';
+//     let srch= searchInput;
+//     srchCapital= srch.toUpperCase()
+//     cours.map((data)=>{
+//       courCapital= data.nom.toUpperCase();
+//       if (courCapital === srchCapital ) {
+//         dataFind.push(data)
+//         setdataSearch(dataFind)
+//       }
+//       return true;
+//     })
+// }
   
  
 
@@ -91,14 +81,14 @@ const TableCour = ({disabledUser}) => {
   > 
 
   {
-      cours ?(
+      cours?(
         cours && cours.map((data,index)=>{
             return (
             <>
             <InfiniteScroll
                 pageStart={0}
                 loadMore='loadFunc'
-                hasMore={true || false}
+                hasMore={true}
               //  loader={<div className="loader" key={0}>Loading ...</div>}
               
                 scrollableTarget="scrollableDiv"
@@ -130,7 +120,7 @@ const TableCour = ({disabledUser}) => {
               </ListItem>
               
               </InfiniteScroll>
-              <Divider variant="inset" component="li" />
+              <Divider variant="inset" />
 
             </>
             )
@@ -148,6 +138,42 @@ const TableCour = ({disabledUser}) => {
   
 
       </List>
+      <Grid container maxWidth='sm' sx={{background:'whhitesmoke', m:1}}>
+              {/* <Grid item sx={{p:0}} alignContent='flex-end' xl={2}>
+                  <PersonAddAltIcon/>
+               
+              </Grid> */}
+              <Grid item sx={{p:0}} alignContent='flex-end' xl={6}>
+             
+                    <Typography variant='overline' align='center'>
+
+                        <IconButton sx={{p:1}}>
+                          <PersonAdd color='primary'/>
+                        </IconButton>
+                        &nbsp;
+                        <Input
+                            id="input-with-icon-adornment"
+                            startAdornment={
+                              <InputAdornment position="start">
+                                <SearchRounded />
+                              </InputAdornment>
+                            }
+                            fullWidth={true}
+                            sx={{ m: 0, width: '61ch' }}
+                            placeholder='search....'
+                            value={searchInput}
+                            onChange={(e)=> setsearchInput(e.target.value)}
+                          />
+
+                        
+
+                    </Typography>
+                    
+                   
+                    
+               
+              </Grid>
+          </Grid>
     </>
   )
 }

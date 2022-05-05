@@ -12,12 +12,33 @@ import { ArgumentScale, Animation } from '@devexpress/dx-react-chart';
 import { styled } from '@mui/material/styles';
 import { scalePoint } from 'd3-scale';
 
-const data = [
-  { year: '2010', android: 67225, ios: 46598 },
-  { year: '2011', android: 179873, ios: 90560 },
-  { year: '2012', android: 310088, ios: 118848 },
-  { year: '2015', android: 539318, ios: 189924 },
+
+const bearer_token= localStorage.getItem('tokenDjango'); 
+const datas = 
+       fetch("http://localhost:8000/api/user", {
+
+        method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${bearer_token}`
+            },
+            
+      }).then((res) => res.json())
+        .then((res) => {
+            if(res.data){
+                return res.data
+            }     
+        })
+
+const data= [
+  { annee: '2010', android: 67225, ios: 46598 },
+  { annee: '2011', android: 179873, ios: 90560 },
+  { annee: '2012', android: 310088, ios: 118848 },
+  { annee: '2015', android: 539318, ios: 189924 },
 ];
+
+ 
 
 const PREFIX = 'Demo';
 
@@ -53,6 +74,8 @@ export default class Demo extends React.PureComponent {
     this.state = {
       data,cour:[]
     };
+
+    // this.getUsers()
   }
 
   componentDidMount() { 
@@ -96,6 +119,7 @@ export default class Demo extends React.PureComponent {
         <Chart
           data={chartData}
           rootComponent={ChartRoot}
+          sx={{maxHeight: 350, maxWidth:'65%'}}
         >
           <ArgumentScale factory={scalePoint} />
           <ArgumentAxis />
@@ -104,12 +128,12 @@ export default class Demo extends React.PureComponent {
           <AreaSeries
             name="Android"
             valueField="android"
-            argumentField="year"
+            argumentField="annee"
           />
           <AreaSeries
             name="iOS"
             valueField="ios"
-            argumentField="year"
+            argumentField="annee"
           />
           <Animation />
           <Legend

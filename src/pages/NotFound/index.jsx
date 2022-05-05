@@ -2,8 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
  const About=()=> {
+ 
   return (
-    <div className="center404page">
+    <div>
       <h1> 404 </h1>
       <hr className="pageNotFoundRedLine" />
       <h2> Page Not Found </h2>

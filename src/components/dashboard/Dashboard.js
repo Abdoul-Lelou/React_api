@@ -91,13 +91,13 @@ export default function Dashboard() {
             {/* Chart */}
             {/* <Grid item xs={12} md={8} lg={9}> */}
               <Paper className={fixedHeightPaper}>
-                <Chart />
+                {/* <Chart /> */}
               </Paper>
             {/* </Grid> */}
             {/* Recent Deposits */}
             {/* <Grid item xs={12} md={4} lg={3}> */}
               <Paper className={fixedHeightPaper}>
-                <Deposits />
+                {/* <Deposits /> */}
               </Paper>
             {/* </Grid> */}
             {/* Recent Orders */}

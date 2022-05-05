@@ -6,7 +6,7 @@ import { CssBaseline } from '@mui/material';
 
 const MobileTable = ({user}) => {
 
-    console.log(user)
+    
   return (
     <>
     <CssBaseline/>
@@ -21,13 +21,13 @@ const MobileTable = ({user}) => {
             <InfiniteScroll
                 pageStart={0}
                 loadMore='loadFunc'
-                hasMore={true || false}
-                //  loader={<div className="loader" key={0}>Loading ...</div>}
+                hasMore={false}
+                loader={<div className="loader" key={0}>Loading ...</div>}
                 
-                scrollableTarget="scrollableDiv"
+                // scrollableTarget="scrollableDiv"
             >
             <table className="responsive-table color" align="center">
-                <caption>Rendez-vous actif <strong>appointValidLength</strong></caption>
+                <caption><strong> Rendez-vous actif </strong></caption>
 
                 {user && user.map((data,index)=>{
                     return(
@@ -45,7 +45,7 @@ const MobileTable = ({user}) => {
                             </tr>
                         </thead>
 
-                        <tbody >
+                        <tbody>
                             <tr key={index}>
                                 <td data-title="Patient">{data.first_name}</td>
                                 <td data-title="Medecin">{data.last_name}</td>

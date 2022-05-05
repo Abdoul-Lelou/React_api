@@ -11,7 +11,7 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import CollapsibleTable from '../../components/Table_user';
-import { Grid, CssBaseline, Typography, Container, ListItemAvatar, Avatar, IconButton } from '@mui/material';
+import { Grid, CssBaseline, Typography, Container, ListItemAvatar, Avatar, IconButton, styled } from '@mui/material';
 import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
 import { ThemeProvider } from '@emotion/react';
 import { createTheme, height, width } from '@mui/system';
@@ -22,10 +22,9 @@ import Title from './title';
 import MobileTable from '../../components/Table_user/mobile_table';
 import ResponsiveDialog from '../../components/dialog';
 import TableUser from '../../components/Table_user';
-import TableArchive from '../../components/Table_archive_user';
-import AddUser from '../../components/dialog/addUser'
-import IntegrationNotistack from '../../components/toast/successToast';
-import ErrorToast from '../../components/toast/errorToast';
+import TableArchive from '../../components/Table_disabled';
+import DetailPanelCour from '../../components/dialog/detailPanel'
+
 import UserArchive from '../../components/Table_archive/archive_user';
 
 
@@ -38,8 +37,6 @@ const Archives = () => {
    const bearer_token= localStorage.getItem('tokenDjango'); 
    const [userDisabled, setUserDisabled] = React.useState('')
    const [userEnable, setUserEnable] = useState('');
-   const [disabled, setDisabled] = useState(false)
-   const [enable, setEnable] = useState(false)
 
 
   React.useEffect(()=>{
@@ -60,94 +57,20 @@ const Archives = () => {
             }
           
         }).then((res) => res.json())
-          .then((res,index) => {
-               //  if(res){
+          .then((res) => {
+                if(res){
                   setUserDisabled(res.filter(x=> !x.is_active && !x.is_archive)) 
                   setUserEnable(res.filter(x=> x.is_active && !x.is_archive))  
-               //  }
+                }
           })
           .catch((error) => {
               console.log(error)
           });
   }
 
- 
-  const ArchiveUser=()=>{
-
-      return (
-
-         <List  component="div" disablePadding sx={{ width: '100%', bgcolor: 'background.paper',   boxShadow: 2  }}
-            id="scrollableDiv"
-            style={{
-            height: 300,
-            overflow: 'auto',
-            flexDirection: 'column-reverse',
-            }}
-         > 
-
-         {
-            userDisabled.length ?(
-               userDisabled && userDisabled.map((data,index)=>{
-                  return (
-                   <>
-                   <InfiniteScroll
-                      pageStart={0}
-                      loadMore='loadFunc'
-                      hasMore={true || false}
-                     //  loader={<div className="loader" key={0}>Loading ...</div>}
-                     
-                      scrollableTarget="scrollableDiv"
-                    >
-                     <ListItem alignItems="flex-start" md={4} key={index}>
-                     <ListItemAvatar>
-                     <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                     </ListItemAvatar>
-                     <ListItemText
-                     primary={Capitalize(data.first_name+' '+data.last_name)}
-                     secondary={
-                        <>
-                        <Typography
-                              sx={{ display: 'inline' }}
-                              component="span"
-                              variant="body2"
-                              color="text.primary"
-                        >
-                              {data.role}
-                        </Typography>
-                        {" — I'll be in your   errands this…"}
-                        </>
-                     }
-                     />
-                     </ListItem>
-                     
-                    </InfiniteScroll>
-                   <Divider variant="inset" component="li" />
-       
-                   </>
-                  )
-               })
-            ):(
-               <Box sx={{m:10}}>
-                  <Typography variant='h5'>
-                     Aucune donnée
-                  </Typography>
-               </Box>
-            )
-         
-         }
- 
-         
-      
-         </List>
-       
-      );
-  }
-
-  const Capitalize=(str)=>{
-   return str.charAt(0).toUpperCase() + str.slice(1);
-   }
   
-const msgLol='jjjj'
+  
+
   
   return(
 
@@ -160,8 +83,7 @@ const msgLol='jjjj'
          <> 
          <Title />
          <Paper elevation={3} >  
-         <UserArchive userget={userEnable}/>  
-
+            <UserArchive userget={userEnable}/>  
          </Paper> 
          </>  
          ):(
@@ -179,8 +101,11 @@ const msgLol='jjjj'
                   <TableArchive disabledUser={userDisabled}/>
              </Grid>
            </Grid> 
+           
+
          </Paper>  
          )}
+         
     </Container>
     </>
   )
