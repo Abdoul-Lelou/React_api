@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import { Avatar, Badge, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, ListItem, ListItemIcon, Menu, MenuItem, Tooltip, Typography, Zoom } from '@mui/material';
+import { Avatar, Badge, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, ListItem, ListItemIcon, Menu, MenuItem, Tooltip, Typography, useMediaQuery, Zoom } from '@mui/material';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import { PeopleAlt } from '@mui/icons-material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
@@ -46,6 +46,8 @@ export default function Title({user, cour, archive_user, img, first_name, last_n
   const [opens, setOpen] = React.useState(false);
   const [scroll, setScroll] = React.useState('paper');
   const [courSelected, setcourSelected] = React.useState('')
+
+  const matches = useMediaQuery('(min-width:900px)');
 
   let date = new Date(2022,0,1)
   date= date.getDate()
@@ -200,6 +202,7 @@ export default function Title({user, cour, archive_user, img, first_name, last_n
 
   return (
     <>
+    {matches ?(
       <Box sx={{ flexGrow: 1 , m:2}}>
         <Grid container spacing={2}>
           <Grid item xs={8}>
@@ -356,8 +359,84 @@ export default function Title({user, cour, archive_user, img, first_name, last_n
           
         </Grid>
       </Box>
+    ):(
 
-      {/* <EditDialog /> */}
+      <Box sx={{ flexGrow: 1 , m:2}}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            {/* <List> */}
+            <Item sx={{borderBottom:'green 1px solid'}}>
+              {/* <Typography variant='h6'>COURS <AutoStoriesIcon sx={{color:'#009688'}}/> </Typography> */}
+              <ListItem  
+                
+                // selected={selectedIndex === 1}
+                // onClick={(event) => {handleListItemClick(event, 1); navigate('user')}}
+            >
+                  <ListItemIcon onClick={()=> {window.location.pathname = 'home'}}>
+                  <Badge  color="primary">
+                    <Tooltip TransitionComponent={Zoom} title="DASHBOARD">
+                    <IconButton sx={{background:'white', boxShadow: 4}}>
+                        <DashboardIcon sx={{color:'#009688'}}/>
+                      </IconButton>
+                    </Tooltip>
+                  </Badge>   
+                  </ListItemIcon>
+                 {
+                  role ==='admin' && 
+                  <ListItemIcon onClick={()=> {window.location.pathname = 'user'}}>
+                    <Badge badgeContent={user && user.length ? user.length:'0'} color="primary">
+                      <Tooltip TransitionComponent={Zoom} title="USERS">
+                          <IconButton sx={{background:'white', boxShadow: 4}}>
+                            <PeopleAlt sx={{color:'#009688'}}/>
+                          </IconButton>
+                      </Tooltip>
+                    </Badge>   
+                  </ListItemIcon>
+                  }
+                  <ListItemIcon onClick={()=> {window.location.pathname = 'cour'}}>
+                    <Badge badgeContent={cour && cour.length ? cour.length: '0'} color="primary">
+                      <Tooltip TransitionComponent={Zoom} title="COURS">
+                        <IconButton sx={{background:'white', boxShadow: 4}}>
+                          <AutoStoriesIcon sx={{color:'#009688'}}/>
+                        </IconButton>
+                      </Tooltip>
+                    </Badge>   
+                  </ListItemIcon>
+                 {
+                   role === 'admin' &&
+                   <ListItemIcon onClick={()=> {window.location.pathname = 'archive_users'}}>
+                   <Badge badgeContent={archive_user && archive_user.length? archive_user.length:'0'} color="primary">
+                       <Tooltip TransitionComponent={Zoom} title="ARCHIVES USERS">
+                         <IconButton sx={{background:'white', boxShadow: 4}}>
+                           <PersonOffIcon sx={{color:'#009688'}}/>
+                         </IconButton>
+                       </Tooltip>
+                   </Badge>   
+                 </ListItemIcon>
+                 }
+                  <ListItemIcon onClick={()=> {window.location.pathname = 'profile'}}>
+                    <Badge  color="primary">
+                      <Tooltip TransitionComponent={Zoom} title="PROFILE">
+                        <IconButton sx={{background:'white', boxShadow: 4}}>
+                          <CommentBankIcon sx={{color:'#009688'}}/>
+                        </IconButton>
+                      </Tooltip>
+                    </Badge>
+                  </ListItemIcon>
+                  
+            
+              </ListItem>
+           
+            </Item>
+            
+          {/* </List> */}
+          </Grid>  
+        </Grid>
+      </Box>
+
+    )}
+      
+
       <ScrollDialog />
     </>
   );

@@ -25,12 +25,6 @@ export default function Title() {
         <Grid item xs={4}>
         <Item sx={{borderBottom:'red 1px solid'}}><Typography variant='h6'>DISABLED <PersonOffIcon sx={{color:'#009688'}}/></Typography></Item>
         </Grid>
-        {/* <Grid item xs={4}>
-          <Item>xs=4</Item>
-        </Grid>
-        <Grid item xs={8}>
-          <Item>xs=8</Item>
-        </Grid> */}
       </Grid>
     </Box>
   );

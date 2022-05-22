@@ -95,18 +95,6 @@ const Profile = ({userLogin}) => {
 
                  <Grid item md={4} mt={0} alignItems='center'>
                      <Grid sx={{background:'#fff'}} md={12} >
-{/* 
-                         <Box 
-                           sx={{
-                             width: 300,
-                             height: 300,
-                             // backgroundColor: 'primary.dark',
-                             '&:hover': {
-                               // backgroundColor: 'primary.main',
-                            //    opacity: [0.9, 0.9, 0.7],
-                             },
-                             paddingTop: 4
-                           }}> */}
                             
                                
 
@@ -119,21 +107,14 @@ const Profile = ({userLogin}) => {
                                           sx={{ width: 150, height: 150, boxShadow:5, margin:'0px auto'}}
                                       />
                                     </Typography>
-                                    {/* <Typography variant='subtitle1' sx={{ m:8, boxShadow: 4}} align='center'>
-                                        {userLogin.first_name+' '+userLogin.last_name}
-                                    </Typography> */}
+                                    
                                     {ListInfo1()}
                                  </>  
                                ):(
                                  <Skeleton variant="circular" sx={{ width: 150, height: 150, boxShadow:5, border: '1px solid red',margin:'0px auto'}} />
                                )} 
  
-                            {/* <Grid rowGap={1}  sx={{border:'1px solid red', marginTop:2}} > */}
-                              {/* <Typography variant='overline' alignContent='center' sx={{border:'1px solid red', margin:'10px auto'}}>
-                                   {userLogin.first_name+' '+userLogin.last_name}
-                              </Typography> */} 
-                            {/* </Grid> */} 
-                         {/* </Box> */}
+                          
                          <Divider variant='inset' flexItem />
                      </Grid>
                  </Grid>

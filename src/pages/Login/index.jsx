@@ -17,17 +17,18 @@ const Login = () => {
 
     const login= ()=>{
 
-        fetch("http://localhost:8000/api/token", {
+        fetch("https://api-django-react.herokuapp.com", {
 
-            method: 'POST',
-                   headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
+                mode: 'no-cors', 
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
                 },
                 body: JSON.stringify({
                     email: email,
                     password: password,
-                })
+                }) 
           }).then((res) => res.json())
             .then((res) => {
                 

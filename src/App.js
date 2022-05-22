@@ -15,9 +15,6 @@ import Home from './pages/Dashboard';
 import Profile from './pages/Profile';
 import moment from 'moment';
 
-LicenseInfo.setLicenseKey(
-  'x0jTPl0USVkVZV0SsMjM1kDNyADM5cjM2ETPZJVSQhVRsIDN0YTM6IVREJ1T0b9586ef25c9853decfa7709eee27a1e',
-);
 
 
 const App=()=> {
@@ -62,7 +59,7 @@ const App=()=> {
       })
       .catch((error) => {
           console.log(error)
-          window.location.pathname =''
+          // window.location.pathname =''
       });
   },[])
 
@@ -123,11 +120,19 @@ const App=()=> {
 
   return (
     <div style={{background:'#c8d8c8', position:'initial',  height: '100vh',minHeight : '100vh',}}>
-        {!defaultRoute && currentUrl !== 'login'  &&  <SearchAppBar img={img} name={first_name} role={role}/>}
+        {!defaultRoute && currentUrl !== 'login'  &&  <SearchAppBar img={img} name={first_name} role={role} sx={{mb:4}}/>}
         <CssBaseline />
-       
-          <Container disableGutters maxWidth='xl' sx={{ pb:0}}>
-
+      
+        {/* <InfiniteScroll
+              pageStart={0}
+              loadMore={true}
+              hasMore={ false}
+              loader={<div className="loader" key={0}>Loading ...</div>}
+              useWindow={false}
+            >
+        */}
+            <Container disableGutters maxWidth='xl' sx={{ pb:0}}>
+            
               <Routes>
 
                   <Route path="/" element={<Login />} />
@@ -153,8 +158,9 @@ const App=()=> {
 
                   <Route exact  element={<About />} />
 
-              </Routes>    
+              </Routes>  
           </Container>
+          {/* </InfiniteScroll> */}
         
         
     </div>

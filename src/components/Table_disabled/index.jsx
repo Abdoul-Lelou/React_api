@@ -31,6 +31,7 @@ const TableDisabled = ({disabledUser}) => {
   const [open, setOpen] = React.useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+  const mediaQuery = useMediaQuery('(min-width:900px)');
 
   
   
@@ -269,7 +270,7 @@ const TableDisabled = ({disabledUser}) => {
                     loader={<div className="loader" key={0}>Loading ...</div>}                       
                     // scrollabletarget="scrollableDiv"
                   >
-                  <ListItem alignItems="flex-start" md={4} >
+                  <ListItem alignItems="flex-start" md={4} sx={{borderBottomColor:'red'}}>
                       <ListItemAvatar key={index}>
                       <Avatar alt={data.first_name.toUpperCase()} src={`http://127.0.0.1:8000/api${data.image}`} />
                       </ListItemAvatar>
@@ -286,14 +287,10 @@ const TableDisabled = ({disabledUser}) => {
                           >
                                 {data.role}
                           </Typography>
-                          {/* {" — I'll be in your   errands this…"} */}
+                          
                           &nbsp;
                           <Typography align='right' variant='overline' color='error' >
-                              {/* <Button variant='contained' sm={2} size="small"  color='warning' title='Activer'
-                                onClick={()=>{handleClickOpen(data.id)}}
-                              >
-                                  Enable
-                              </Button> */}
+                             
                               <Switch   
                                   checked={false}  
                                   onChange={()=>handleClickOpen(data.id)} 
@@ -334,7 +331,8 @@ const TableDisabled = ({disabledUser}) => {
       disabledUser && disabledUser.length >0 ?(
         <>
         
-          <List  component="div" disablePadding 
+          {mediaQuery?(
+            <List  component="div" disablePadding 
                   sx={{ width: '100%', bgcolor: 'background.paper',borderBottom:'1px #f00 solid',   boxShadow: 1  }}
                   
                   style={{
@@ -347,48 +345,104 @@ const TableDisabled = ({disabledUser}) => {
               <CustomizedList />
 
           </List>
+          ):(
+            <List  component="div" disablePadding 
+                  sx={{ width: '100%', bgcolor: 'background.paper',borderBottom:'1px #f00 solid',   boxShadow: 1  }}
+                  
+                  style={{
+                  height: 430,
+                  overflow: 'auto',
+                  flexDirection: 'column-reverse',
+                  
+                  }}
+          > 
+              <CustomizedList />
+
+          </List>
+          )}
+          
         
           <Grid container maxWidth='sm' sx={{background:'whhitesmoke', m:0}}>
               <Grid item  sx={{p:0}} alignContent='flex-end'>
               
-                    <Input
-                        id="input-with-icon-adornment"
-                        startAdornment={
-                          searchField ? (
+                    {mediaQuery ?(
 
-                          <InputAdornment position="start">
-                            <IconButton onClick={()=>{setSearchField(searchField.toUpperCase()); filterSearch()} }>
-                                <SearchRounded color='primary'/>
-                            </IconButton>
-                          </InputAdornment>
-                          ):(
-                            <InputAdornment position="start" disabled>
-                            <IconButton disabled>
-                                <SearchRounded />
-                            </IconButton>
-                          </InputAdornment>
-                          )
-                        }
-                        endAdornment={
-                          searchField && <InputAdornment position="end">
-                            <IconButton onClick={()=>{setSearchField('')} }>
-                                <ClearIcon color='error' fontSize='small' />
-                            </IconButton>
-                          </InputAdornment>
-                        }
-                        fullWidth={true}
-                        value={searchField}
-                        onChange={(e)=> {
-                          setSearchField(
-                            e.target.value.replace(/[^\w\s]/gi, '')
-                          ); 
-                        }}
-                        sx={{ mt: 1, maxWidth: '60ch'}}
-                        placeholder='search.... Nom ou Prénom'
-                      />
-                    
-                    <br />
-                
+                        <Input
+                            id="input-with-icon-adornment"
+                            startAdornment={
+                              searchField ? (
+
+                              <InputAdornment position="start">
+                                <IconButton onClick={()=>{setSearchField(searchField.toUpperCase()); filterSearch()} }>
+                                    <SearchRounded color='primary'/>
+                                </IconButton>
+                              </InputAdornment>
+                              ):(
+                                <InputAdornment position="start" disabled>
+                                <IconButton disabled>
+                                    <SearchRounded />
+                                </IconButton>
+                              </InputAdornment>
+                              )
+                            }
+                            endAdornment={
+                              searchField && <InputAdornment position="end">
+                                <IconButton onClick={()=>{setSearchField('')} }>
+                                    <ClearIcon color='error' fontSize='small' />
+                                </IconButton>
+                              </InputAdornment>
+                            }
+                            fullWidth={true}
+                            value={searchField}
+                            onChange={(e)=> {
+                              setSearchField(
+                                e.target.value.replace(/[^\w\s]/gi, '')
+                              ); 
+                            }}
+                            sx={{ mt: 1, maxWidth: '60ch'}}
+                            placeholder='search.... Nom ou Prénom'
+                          />
+                            
+                        ):(
+
+                        <Input
+                            id="input-with-icon-adornment"
+                            startAdornment={
+                              searchField ? (
+
+                              <InputAdornment position="start">
+                                <IconButton onClick={()=>{setSearchField(searchField.toUpperCase()); filterSearch()} }>
+                                    <SearchRounded color='primary'/>
+                                </IconButton>
+                              </InputAdornment>
+                              ):(
+                                <InputAdornment position="start" disabled>
+                                <IconButton disabled>
+                                    <SearchRounded />
+                                </IconButton>
+                              </InputAdornment>
+                              )
+                            }
+                            endAdornment={
+                              searchField && <InputAdornment position="end">
+                                <IconButton onClick={()=>{setSearchField('')} }>
+                                    <ClearIcon color='error' fontSize='small' />
+                                </IconButton>
+                              </InputAdornment>
+                            }
+                            fullWidth={true}
+                            value={searchField}
+                            onChange={(e)=> {
+                              setSearchField(
+                                e.target.value.replace(/[^\w\s]/gi, '')
+                              ); 
+                            }}
+                            sx={{ mt: 1, maxWidth: '150%'}}
+                            placeholder='search.... Nom ou Prénom'
+                          />
+                            
+                        )
+                    }
               </Grid>
           </Grid>
         </>

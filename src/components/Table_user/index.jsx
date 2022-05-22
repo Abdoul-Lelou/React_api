@@ -101,18 +101,16 @@ const customStyles = {
 
 const TableUser = ({ userget, cours }) => {
 
-  // const [user, setUser] = useState('');
+  
   const [pageSize, setPageSize] = React.useState(5);
   const [rowSelected, setRowSelected] = React.useState('');
   const [loading, setLoading] = React.useState(false);
   const [openArchive, setOpenArchive] = React.useState(false);
   const [openDisable, setOpenDisable] = React.useState(false);
   const [openEdit, setOpenEdit] = React.useState(false);
-  // const [checked, setChecked] = React.useState(true);
+  
   const [archived, setArchived] = useState(false)
-  // const [open, setOpen] = React.useState(false);
-
-  // const [idEdit, setidEdit] = React.useState('');
+  
   const [nomEdit, setnomEdit] = React.useState('');
   const [prenomEdit, setprenomEdit] = React.useState('')
   const [roleEdit, setroleEdit] = React.useState('')
@@ -127,17 +125,16 @@ const TableUser = ({ userget, cours }) => {
   const [telAdd, settelAdd] = React.useState('');
   const [passwordAdd, setpasswordAdd] = React.useState('');
   
-  // const [image, setimage] = React.useState('')
+  
   const [emailAdd, setemailAdd] = React.useState('')
-  // const [refresh, setrefresh] = React.useState('')
-
+ 
   const bearer_token = localStorage.getItem('tokenDjango');
 
   const theme = useTheme(); let subtitle;
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+  const matches = useMediaQuery('(min-width:900px)');
   const [modalEditIsOpen, setIsOpenEdit] = React.useState(false);
   const [modalAddIsOpen, setIsOpenAdd] = React.useState(false);
-  // const signedCour=  [...new Map(cours && cours.map(v => [v.user, v])).values()]
   const role= localStorage.getItem('roleLogin')
 
 
@@ -564,8 +561,10 @@ const TableUser = ({ userget, cours }) => {
   return (
     <>
       <CssBaseline />
-      <div
-        style={{ height: 300, maxWidth: '100%', boxShadow: 8 }}
+
+      {matches ?(
+        <div
+        style={{ height: 300, maxWidth: '100%', boxShadow: 8, background:'#fff' }}
         sx={{
           height: 400,
           width: 1,
@@ -961,6 +960,408 @@ const TableUser = ({ userget, cours }) => {
         }
 
       </div>
+      ):(
+        <div
+        style={{ height: 430, maxWidth: '100%', boxShadow: 8, background:'#fff' }}
+        sx={{
+          height: 400,
+          width: 1,
+          '& .MuiDataGrid-cell--editable': {
+            bgcolor: (theme) =>
+              theme.palette.mode === 'dark' ? '#376331' : 'rgb(217 243 190)',
+          },
+        }}
+        id='main'
+      >
+
+
+        <DataGrid
+          columns={columns}
+
+          rows={userget}
+          onSelectionModelChange={(ids) => {
+            const selectedIDs = new Set(ids);
+            const selectedRows = userget.filter((row) =>
+              selectedIDs.has(row.id)
+            );
+            setRowSelected(selectedRows)
+          }}
+          // hideFooterPagination 
+          components={{
+            NoRowsOverlay: () => (
+              <Stack height="100%" alignItems="center" justifyContent="center">
+                <Typography variant='h4' color='HighlightText'>Aucune donnée </Typography>
+              </Stack>
+            ),
+            NoResultsOverlay: () => (
+              <Stack height="100%" alignItems="center" justifyContent="center">
+                Local filter returns no result
+              </Stack>
+            ),
+
+          }}
+
+
+
+          sx={{ paddingBottom: 0, borderBottom: '1px #009688 solid' }}
+          autoPageSize
+          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+          rowsPerPageOptions={[5, 10, 20]}
+          pagination
+          {...userget}
+          loading={loading}
+        />
+
+
+
+
+        <Modal
+          isOpen={modalEditIsOpen}
+          // onAfterOpen={afteropenModalEdit}
+          onRequestClose={closeModal}
+          style={customStyles}
+          contentLabel="Example Modal"
+          ariaHideApp={false}
+          appElement={document.getElementById('app')}
+        >
+
+          <Box sx={{ flexGrow: 1, m: 2 }}>
+            <Grid container spacing={0}>
+              <Grid item md={12} alignItems='center'>
+                <Item sx={{ borderBottom: '#c8d8c8 1px solid', background: '#fffff8' }} md={4} align='center'>
+                  <Typography variant='h6'>MODIFIER </Typography>
+                </Item>
+              </Grid>
+              {/* <Grid item xs={6}>
+                        <Item sx={{borderBottom:'red 1px solid'}}><Typography variant='h6'>APPRENANTS <SchoolIcon/></Typography></Item>
+                        </Grid> */}
+
+            </Grid>
+          </Box>
+
+          <Box sx={{ flexGrow: 1, m: 2 }}>
+
+            <Grid container
+              sx={{
+                m: '15px auto',
+                borderRaduis: '20px',
+                background: rgbToHex('#fffff8'),
+                boxShadow: 4
+              }}
+              spacing={2}
+              md={12}
+            >
+              <Grid item sm={6} >
+
+                <FormControl fullWidth={true} >
+
+                  <TextField
+                    // id="outlined-basic" 
+                    label="NomEdit"
+                    value={nomEdit}
+                    onChange={e => setnomEdit(e.target.value)}
+                    variant="outlined" placeholder='Nom'
+                    sx={{ m: 1 }}
+                  />
+
+
+                  <Divider />
+
+
+                  <TextField
+                    // id="outlined-password-input" 
+                    label="PrenomEdit"
+                    value={prenomEdit}
+                    onChange={e => setprenomEdit(e.target.value)}
+                    variant="outlined" placeholder='Prenom'
+                    sx={{ m: 1 }}
+                  />
+
+
+                  <Divider />
+
+                  <TextField
+                    // id="outlined-basic" 
+                    label="EmailEdit"
+                    value={emailEdit}
+                    onChange={e => setemailEdit(e.target.value)}
+                    variant="outlined" placeholder='@gmail.com'
+                    sx={{ m: 1 }}
+                  />
+
+
+
+
+
+                </FormControl>
+                {/* </Typography> */}
+              </Grid>
+              <Grid item xs={6} sx={{ p: 2 }}>
+
+                <FormControl fullWidth={true} >
+
+                  <InputLabel id="demo-simple-select-label-role">Role</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label-role"
+                    // id="demo-simple-select"
+                    value={roleEdit}
+                    label="RoleEdit"
+                    onChange={e => setroleEdit(e.target.value)}
+                    sx={{ m: 1 }}
+                    placeholder='RoleEdit'
+                  >
+                    <MenuItem value='proffesseur'>Proffesseur</MenuItem>
+                    <MenuItem value='apprenant'>Apprenant</MenuItem>
+
+                  </Select>
+
+                  <Divider />
+
+                  <TextField
+                    // id="outlined-basic" 
+                    label="PasswordEdit"
+                    type='password'
+                    // value={passwordEdit} 
+                    // onChange={e=>{setpasswordEdit(e.target.value)}}
+                    variant="outlined" placeholder='PasswordEdit'
+                    sx={{ m: 1 }}
+                    disabled
+                  />
+
+
+                  <Divider />
+
+
+                  <TextField
+                    // id="outlined-password-input" 
+                    label="TelEdit"
+                    value={telEdit}
+                    onChange={e => settelEdit(e.target.value)}
+                    variant="outlined" placeholder='Tel'
+                    sx={{ m: 1 }}
+                  />
+
+
+
+
+
+                </FormControl>
+                {/* </Typography> */}
+              </Grid>
+              <Divider />
+              {/* <Grid item a> */}
+              <Typography align='center' sx={{ m: '0 auto', p: 1 }}>
+                {
+                  !emailEdit || !prenomEdit || !nomEdit || !roleEdit || !passwordEdit || !telEdit ? (
+                    <Button color='primary' variant='contained' disabled>Modifier</Button>
+                  ) : (
+                    <Button
+                      variant='contained'
+                      color='primary'
+                      onClick={() => userUpdateData()}
+                    >Modifier</Button>
+                  )
+                }
+                &nbsp;
+                <Button color='error' variant='contained' onClick={() => closeModal()}>Annuler</Button>
+              </Typography>
+              {/* </Grid> */}
+            </Grid>
+
+          </Box>
+
+
+        </Modal>
+
+        <Modal
+          isOpen={modalAddIsOpen}
+          // onAfterOpen={afteropenModalAdd}
+          onRequestClose={closeModal}
+          style={customStyles}
+          contentLabel="Example Modal"
+          ariaHideApp={false}
+          appElement={document.getElementById('app')}
+        >
+          {/* <Typography  align='center' variant='h5' >
+                      <p ref={(_subtitle) => (subtitle = _subtitle)}>Ajouter</p>
+                </Typography> */}
+
+          <Box sx={{ flexGrow: 1, m: 2 }}>
+            <Grid container spacing={0}>
+              <Grid item md={12} alignItems='center'>
+                <Item sx={{ borderBottom: '#c8d8c8 1px solid', background: '#fffff8' }} md={4} align='center'>
+                  <Typography variant='h6'>AJOUTER </Typography>
+                </Item>
+              </Grid>
+              {/* <Grid item xs={6}>
+                        <Item sx={{borderBottom:'red 1px solid'}}><Typography variant='h6'>APPRENANTS <SchoolIcon/></Typography></Item>
+                        </Grid> */}
+
+            </Grid>
+          </Box>
+
+          <Box sx={{ flexGrow: 1, m: 2 }}>
+
+            <Grid
+              container
+              sx={{ m: '15px auto', borderRaduis: '20px', background: rgbToHex('#fffff8'), boxShadow: 4 }}
+              spacing={2}
+              // md={12}
+            >
+
+              <Grid item sm={6} >
+
+                <FormControl fullWidth={true} >
+
+                  <TextField
+                    // id="outlined-basic" 
+                    label="Nom"
+                    value={Capitalize(nomAdd)}
+                    onChange={e => { setnomAdd(e.target.value); toInputUppercase(e) }}
+                    variant="outlined" placeholder='Nom'
+                    sx={{ m: 1 }}
+                  />
+
+
+                  <Divider />
+
+
+                  <TextField
+                    // id="outlined-password-input" 
+                    label="Prenom"
+                    value={Capitalize(prenomAdd)}
+                    onChange={e => setprenomAdd(e.target.value)}
+                    variant="outlined" placeholder='Prenom'
+                    sx={{ m: 1 }}
+                  />
+
+
+                  <Divider />
+
+                  <TextField
+                    // id="outlined-basic" 
+                    label="Email"
+                    value={Capitalize(emailAdd)}
+                    onChange={e => setemailAdd(e.target.value)}
+                    variant="outlined" placeholder='@gmail.com'
+                    sx={{ m: 1 }}
+                  />
+
+
+
+
+
+                </FormControl>
+
+              </Grid>
+
+              <Grid item xs={6} sx={{ p: 2 }}>
+
+                <FormControl fullWidth={true} >
+
+                  <InputLabel id="demo-simple-select-label-role">Role</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label-role"
+                    // id="demo-simple-select"
+                    value={roleAdd}
+                    label="Role"
+                    onChange={e => setroleAdd(e.target.value)}
+                    sx={{ m: 1 }}
+                    placeholder='Role'
+                  >
+                    <MenuItem value='proffesseur'>Proffesseur</MenuItem>
+                    <MenuItem value='apprenant'>Apprenant</MenuItem>
+
+                  </Select>
+
+                  <Divider />
+
+                  <TextField
+                    // id="outlined-basic" 
+                    label="Password"
+                    type='password'
+                    value={passwordAdd? passwordAdd: ''}                  
+                    onChange={e => setpasswordAdd(e.target.value)}
+                    variant="outlined" placeholder='PasswordAdd'
+                    sx={{ m: 1 }}
+                    autoComplete="off"
+                  />
+
+
+                  <Divider />
+
+
+                  <TextField
+                    // id="outlined-password-input" 
+                    label="Tel"
+                    value={telAdd}
+                    onChange={e => settelAdd(e.target.value)}
+                    variant="outlined" placeholder='Tel'
+                    sx={{ m: 1 }}
+                  />
+
+
+
+
+
+                </FormControl>
+
+              </Grid>
+              <Divider />
+
+              <Typography align='center' sx={{ m: '0 auto', p: 1 }}>
+                {
+                  !emailAdd || !prenomAdd || !nomAdd || !roleAdd || !passwordAdd || !telAdd ? (
+                    <Button color='primary' variant='contained' disabled>Ajouter</Button>
+                  ) : (
+
+                    <Button
+                      variant='contained'
+                      color='primary'
+                      onClick={() => userRegistre()}
+                    >Ajouter</Button>
+                  )
+                }
+                &nbsp;
+                <Button color='error' variant='contained' onClick={() => closeModal()}>Annuler</Button>
+              </Typography>
+
+            </Grid>
+
+
+          </Box>
+
+
+
+        </Modal>
+
+        {
+          role ==='admin' &&
+          <Typography >
+            <IconButton
+              variant="text"
+              onClick={() => openModalAdd()}
+              title='Ajouter'
+            >
+              <PersonAdd sx={{ color: '#009688' }} />
+            </IconButton>
+          {/* <IconButton 
+                    variant="text" 
+                    onClick={()=>window.location.reload()} 
+                    title='Actualiser'
+                    color='primary'
+                    >
+                    <RefreshOutlined />
+                </IconButton>    */}
+
+        </Typography>
+        }
+
+      </div>
+      )}
+      
+
+
       <ArchiveDialog />
       <DisableDialog />
       <EditDialog />

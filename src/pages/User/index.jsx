@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import InfiniteScroll from 'react-infinite-scroller'
 import Divider from '@mui/material/Divider';
 import { Grid, CssBaseline, Typography, Container, Box, Chip, styled, Tooltip,Paper } from '@mui/material';
-
+import { PeopleAltRounded } from '@mui/icons-material';
+import PersonOffIcon from '@mui/icons-material/PersonOff';
 import MobileTable from '../../components/Table_user/mobile_table';
 import TableDisabled from '../../components/Table_disabled';
 import TableUser from '../../components/Table_user';
 import Title from './title';
+import MobileTabUser from './mobile-user'
 
 
 
@@ -127,39 +130,14 @@ const User = ({userLogin}) => {
          </Paper> 
          </>  
          ):(
-         <Paper elevation={0} style={{ height:'20%', width:'initial'}}> 
-          <Grid  container 
-           style={{ height:'20%', width:'initial'}} direction="column" maxWidth='xl'
-          >            
-             {/* <Grid item>
-                  <MobileTable user={userEnable}/>  
-             </Grid>
-
-             <Divider />
-
-             <Grid item  sx={{marginTop:2, width:'100%'}}>
-                  <TableDisabled disabledUser={userDisabled}/>
-             </Grid> */}
-
-               <Grid item  xs={8} style={{margin: '0', padding:4, }} >
-                 <TableUser userget={userEnable}/>  
-               </Grid>
-               
-               <Grid item sm={4} style={{ padding: 4, margin:'0 auto'}} >
-                     <TableDisabled disabledUser={userDisabled}/>
-               </Grid>
-
-             <Box sx={{ flexGrow: 1 , m:0}}>
-                  <Grid container spacing={0}>
-                  <Grid item xs={12}>
-                     <Item sx={{borderBottom:'green 1px solid'}}>
-                        <Typography variant='subtitle2'><Divider ><Chip label="Archives" /></Divider> </Typography>
-                     </Item>
-                  </Grid>
-                  </Grid>
-               </Box>
+        
+         <>
+         <Grid  container style={{ height:'20%', width:'initial'}} direction="column" maxWidth='xl'>   
+     
+            <MobileTabUser userEnable={userEnable} userDisabled={userDisabled} />
            </Grid> 
-         </Paper>  
+         </>
+          
          )}
          
     </Container>
