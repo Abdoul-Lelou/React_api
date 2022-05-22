@@ -9,9 +9,6 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
 
-import Chart from './Chart';
-import Deposits from './Deposits';
-import Orders from './Orders';
 
 function Copyright() {
   return (

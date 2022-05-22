@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import { Avatar, Badge, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, ListItem, ListItemIcon, Menu, MenuItem, Tooltip, Typography, useMediaQuery, Zoom } from '@mui/material';
+import { Avatar, Badge, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, ListItem, ListItemIcon, Menu, MenuItem, Tooltip, Typography, useMediaQuery, Zoom } from '@mui/material';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import { PeopleAlt } from '@mui/icons-material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
@@ -15,9 +15,7 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import moment from 'moment';
 import DetailPanelCour from '../../components/dialog/detailPanel';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import CloseIcon from '@mui/icons-material/Close';
+
 import Slide from '@mui/material/Slide';
 
 
@@ -38,19 +36,17 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function Title({user, cour, archive_user, img, first_name, last_name, role}) {
 
-  const urlImg = 'http://127.0.0.1:8000/api';
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [dateSelect, setdateSelect] = React.useState([])
   const [openDial, setOpenDial] = React.useState(false);
   const [opens, setOpen] = React.useState(false);
   const [scroll, setScroll] = React.useState('paper');
-  const [courSelected, setcourSelected] = React.useState('')
 
   const matches = useMediaQuery('(min-width:900px)');
 
-  let date = new Date(2022,0,1)
-  date= date.getDate()
+  let dateFormat = new Date(2022,0,1)
+  let date= dateFormat.getDate()
   const open = Boolean(anchorEl);
   const descriptionElementRef = React.useRef(null);
   

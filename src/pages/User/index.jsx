@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import InfiniteScroll from 'react-infinite-scroller'
 import Divider from '@mui/material/Divider';
 import { Grid, CssBaseline, Typography, Container, Box, Chip, styled, Tooltip,Paper } from '@mui/material';
-import { PeopleAltRounded } from '@mui/icons-material';
-import PersonOffIcon from '@mui/icons-material/PersonOff';
-import MobileTable from '../../components/Table_user/mobile_table';
+
 import TableDisabled from '../../components/Table_disabled';
 import TableUser from '../../components/Table_user';
 import Title from './title';
@@ -16,7 +13,7 @@ import MobileTabUser from './mobile-user'
 
 
 
-const User = ({userLogin}) => {
+const User = () => {
    const matches = useMediaQuery('(min-width:900px)');
 
    const bearer_token= localStorage.getItem('tokenDjango'); 

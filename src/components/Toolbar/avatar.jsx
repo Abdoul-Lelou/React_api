@@ -5,7 +5,6 @@ import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 import { IconButton, Menu, MenuItem, Tooltip, Zoom } from '@mui/material';
 import LogoutSharpIcon from '@mui/icons-material/LogoutSharp';
-import AccountCircleSharpIcon from '@mui/icons-material/AccountCircleSharp';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {

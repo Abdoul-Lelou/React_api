@@ -1,29 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import CollapsibleTable from '../../components/Table_user';
-import { Grid, CssBaseline, Typography, Container, ListItemAvatar, Avatar, styled, Chip, Tooltip } from '@mui/material';
-import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
-import { ThemeProvider } from '@emotion/react';
-import { createTheme, height, width } from '@mui/system';
-import { Paper } from '@mui/material';
-// import FormDetailPanel from '../../components/Table_cour';
-import InfiniteScroll from 'react-infinite-scroller';
-// import TableCour from '../../components/Table_cour';
-// import TableUser from '../../components/Table_user';
+import { Grid, CssBaseline, Typography,  styled, Chip, Tooltip, Paper } from '@mui/material';
 import ArchiveApprenant from './archive_apprenant';
 import ArchiveProffesseur from './archive_proffesseur';
-import { Archive } from '@mui/icons-material';
-// import Title from './title';
 
 
 const UserArchive = () => {

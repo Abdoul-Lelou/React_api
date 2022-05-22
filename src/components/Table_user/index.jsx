@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
-import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import './index.css'
-import { Avatar, CssBaseline, Divider, FormControl, Grid, InputLabel, MenuItem, rgbToHex, Select, Slide, Stack, TextField } from '@mui/material';
-import Switch from '@mui/material/Switch';
-import ArchiveIcon from '@mui/icons-material/Archive';
-import EditIcon from '@mui/icons-material/Edit';
-import { alpha, styled } from '@mui/material/styles';
-import { pink } from '@mui/material/colors';
+import { Avatar, CssBaseline, Divider, FormControl, Grid, InputLabel, MenuItem, rgbToHex, Select, Stack, TextField } from '@mui/material';
+import { styled, useTheme } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -19,16 +15,11 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
-import { PersonAdd, RefreshOutlined } from '@mui/icons-material';
-import CloseIcon from '@mui/icons-material/Close';
+import { PersonAdd } from '@mui/icons-material';
 import Modal from 'react-modal';
-import { SnackbarProvider, useSnackbar } from 'notistack';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Swal from 'sweetalert2';
-import DetailPanelCour from '../dialog/detailPanel';
-import DetailPanelUser from '../dialog/detailPanelUser';
 import CustomizedMenus from './custom_button';
 
 

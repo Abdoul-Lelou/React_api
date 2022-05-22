@@ -1,19 +1,13 @@
 import * as React from 'react';
 import { styled, alpha } from '@mui/material/styles';
-import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import EditIcon from '@mui/icons-material/Edit';
 import Divider from '@mui/material/Divider';
 import ArchiveIcon from '@mui/icons-material/Archive';
-import FileCopyIcon from '@mui/icons-material/FileCopy';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { IconButton, Switch } from '@mui/material';
+import { IconButton } from '@mui/material';
 import MenuOpenSharpIcon from '@mui/icons-material/MenuOpenSharp';
-import ToggleOnOutlinedIcon from '@mui/icons-material/ToggleOnOutlined';
-import ToggleOffOutlinedIcon from '@mui/icons-material/ToggleOffOutlined';
-import DetailPanelUser from '../dialog/detailPanelUser';
 import DetailPanelCour from '../dialog/detailPanel';
 
 const StyledMenu = styled((props) => (
@@ -71,10 +65,7 @@ export default function CustomizedMenusCour({user, openModalEdit, courArchive, r
   };
 
   
- 
-  const isActiveUser=()=>{
-      isActive ? setisActive(false): setisActive(true)
-  }
+
 
   return (
     <div>

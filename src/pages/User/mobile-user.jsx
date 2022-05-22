@@ -47,7 +47,7 @@ function a11yProps(index) {
 export default function MobileTabUser({userEnable,userDisabled }) {
   const [value, setValue] = React.useState(0);
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (newValue) => {
     setValue(newValue);
   };
 

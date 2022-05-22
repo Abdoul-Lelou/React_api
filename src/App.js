@@ -2,15 +2,14 @@ import {  useEffect, useState } from 'react';
 import './App.css';
 import SearchAppBar from './components/Toolbar/index.jsx';
 import User from './pages/User';
-import { Container, CssBaseline, Grid, Link, Typography } from '@mui/material';
+import { Container, CssBaseline} from '@mui/material';
 
-import { Route, Routes, withRouter,useHistory, useLocation} from 'react-router-dom'
+import { Route, Routes,  useLocation} from 'react-router-dom'
 import Login from './pages/Login';
 import About from './pages/NotFound';
 import Cour from './pages/Cours';
 import Archive from './pages/ArchiveUsers';
 
-import { LicenseInfo } from '@mui/x-data-grid-pro';
 import Home from './pages/Dashboard';
 import Profile from './pages/Profile';
 import moment from 'moment';
@@ -70,7 +69,6 @@ const App=()=> {
           updateCour(data.id)
         }
     })
-    // return moment(date).isAfter(today)
   }
   
   const getCours=()=>{
@@ -121,18 +119,8 @@ const App=()=> {
   return (
     <div style={{background:'#c8d8c8', position:'initial',  height: '100vh',minHeight : '100vh',}}>
         {!defaultRoute && currentUrl !== 'login'  &&  <SearchAppBar img={img} name={first_name} role={role} sx={{mb:4}}/>}
-        <CssBaseline />
-      
-        {/* <InfiniteScroll
-              pageStart={0}
-              loadMore={true}
-              hasMore={ false}
-              loader={<div className="loader" key={0}>Loading ...</div>}
-              useWindow={false}
-            >
-        */}
-            <Container disableGutters maxWidth='xl' sx={{ pb:0}}>
-            
+            <CssBaseline />
+            <Container disableGutters maxWidth='xl' sx={{ pb:0}}>         
               <Routes>
 
                   <Route path="/" element={<Login />} />
@@ -159,10 +147,8 @@ const App=()=> {
                   <Route exact  element={<About />} />
 
               </Routes>  
-          </Container>
-          {/* </InfiniteScroll> */}
-        
-        
+            </Container>
+                
     </div>
   );
 }

@@ -8,7 +8,6 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
 import List from '@mui/material/List';
@@ -73,7 +72,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   divider: {
       background: 'background.paper',
       borderRadius:20,
@@ -85,7 +84,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SearchAppBar({img, name, role}) {
 
-      // const user = React.useContext(userContext)
       const [state, setState] = React.useState({
         // top: false,
         left: false,
@@ -107,17 +105,11 @@ export default function SearchAppBar({img, name, role}) {
       };
 
       const handleListItemClick = (event, index) => {
+        event.preventDefault()
         setSelectedIndex(index);
       };
 
-      const activeRoute=(e)=>{
-        const path= window.location.pathname.split('/').join('');
-         setCurrentRoute(path)
-         let ids=document.getElementById(`${path}`)
-         ids.style.backgroundColor = 'blue'
-        console.log(ids)
-     
-     }
+    
     
       const list = (anchor) => (
         <Box

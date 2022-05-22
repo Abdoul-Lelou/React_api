@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {useNavigate} from 'react-router-dom'
-import { Button, CircularProgress, Container, Divider, FormControl, FormHelperText, Grid, Input, InputLabel, Paper, TextField, Typography } from '@mui/material';
+import { Button, CircularProgress, Container, Divider, FormControl, Grid,  TextField, Typography } from '@mui/material';
 
 const Login = () => {
 
@@ -8,27 +8,23 @@ const Login = () => {
     const [password, setPassword] = useState('bakeli22');
     const [errorMsg, seterrorMsg] = useState('');
     const [loader, setloader] = useState(false)
-    const navigate = useNavigate();
 
 
-    useEffect(() => {
-        
-    })
+   
 
     const login= ()=>{
 
-        fetch("https://api-django-react.herokuapp.com", {
+        fetch("http://localhost:8000/api/token", {
 
-                mode: 'no-cors', 
-                method: 'POST',
-                headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
+            method: 'POST',
+                   headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
                 },
                 body: JSON.stringify({
                     email: email,
                     password: password,
-                }) 
+                })
           }).then((res) => res.json())
             .then((res) => {
                 

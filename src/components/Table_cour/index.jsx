@@ -42,29 +42,15 @@ const TableCour = () => {
           },
           
     }).then((res) => res.json())
-      .then((res,index) => {
-            setCours(res.data)
-          //   console.log(res);
-          
+      .then((res) => {
+            setCours(res.data)          
       })
       .catch((error) => {
           console.log(error)
       });
   }
    
-//   const filterSearch=()=>{
-//     let dataFind= [],srchCapital='',courCapital='';
-//     let srch= searchInput;
-//     srchCapital= srch.toUpperCase()
-//     cours.map((data)=>{
-//       courCapital= data.nom.toUpperCase();
-//       if (courCapital === srchCapital ) {
-//         dataFind.push(data)
-//         setdataSearch(dataFind)
-//       }
-//       return true;
-//     })
-// }
+
   
  
 

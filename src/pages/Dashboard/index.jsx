@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Box from '@mui/material/Box';
-import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 
 import { 
@@ -9,10 +8,8 @@ import {
         Avatar,Stack, styled, Badge, Link, Chip, AvatarGroup,
         Tooltip, Zoom, Slide 
 } from '@mui/material';
-import Deposits from '../../components/dashboard/Deposits';
 import Title from './title';
 import moment from 'moment';
-import CloseIcon from '@mui/icons-material/Close';
 import InfiniteScroll from 'react-infinite-scroller';
 
 
@@ -103,7 +100,7 @@ const Home = ({img, first_name, last_name, role}) => {
 
   }
 
-  const StyledBadgeEnable = styled(Badge)(({ theme }) => ({
+  const StyledBadgeEnable = styled(Badge)(() => ({
       '& .MuiBadge-badge': {
         backgroundColor: '#44b700',
         color: '#44b700',
@@ -133,7 +130,7 @@ const Home = ({img, first_name, last_name, role}) => {
       },
   }));
 
-  const StyledBadgeDisable = styled(Badge)(({ theme }) => ({
+  const StyledBadgeDisable = styled(Badge)(() => ({
       '& .MuiBadge-badge': {
       //   backgroundColor: '#ff0000',
       //   color: '#ff2300',
@@ -163,30 +160,12 @@ const Home = ({img, first_name, last_name, role}) => {
       },
   }));
 
-  function Copyright() {
-      return (
-          <Typography variant="body2" color="textSecondary" align="center">
-          {/* {'Copyright © '} */}
-          <Link color="inherit" >
-              Created By <strong>Abdourahmane Diallo</strong>.
-          </Link>{' '}
-          {new Date().getFullYear()}
-          {'.'}
-          </Typography>
-      );
-  }
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
 
-  const Transition = React.forwardRef(function Transition(props, ref) {
-      return <Slide direction="up" ref={ref} {...props} />;
-    });
  
  
   return(

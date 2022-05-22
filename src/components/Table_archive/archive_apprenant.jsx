@@ -1,11 +1,4 @@
 import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import { Avatar, Button, Grid, ButtonGroup, CssBaseline, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, Input, InputAdornment, List, ListItem, ListItemAvatar, ListItemText, Typography } from '@mui/material';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Box } from '@mui/system';
@@ -33,7 +26,7 @@ const rows = [
   createData('Gingerbread', 356, 16.0, 49, 3.9),
 ];
 
-export default function ArchiveApprenant({apprenant}) {
+export default function ArchiveApprenant() {
 
   const [archive, setarchive] = React.useState('')
   const bearer_token= localStorage.getItem('tokenDjango'); 

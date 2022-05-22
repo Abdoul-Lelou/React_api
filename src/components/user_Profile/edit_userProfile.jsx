@@ -4,8 +4,6 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import SettingsAccessibilityIcon from '@mui/icons-material/SettingsAccessibility';
-import AttributionIcon from '@mui/icons-material/Attribution';
 import PasswordIcon from '@mui/icons-material/Password';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { Button, IconButton, TextField } from '@mui/material';
@@ -19,7 +17,6 @@ export default function EditAccordions({ userLogin }) {
   const [new_password, setnewPassword] = React.useState('');
   const [confirm_password, setconfirmPassword] = React.useState('');
   const [imageAsFile, setImageAsFile] = React.useState('')
-  const [imageAsUrl, setImageAsUrl] = React.useState('');
   const [statusPassword, setstatusPassword] = React.useState('')
 
   const bearer_token = localStorage.getItem('tokenDjango')
@@ -46,7 +43,9 @@ export default function EditAccordions({ userLogin }) {
   })
 
   const handleChange = (panel) => (event, isExpanded) => {
+
     setExpanded(isExpanded ? panel : false);
+    event.preventDefault()
   };
 
   const handleImageAsFile = (e) => {

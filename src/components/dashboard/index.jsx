@@ -1,7 +1,5 @@
 import { Avatar, Box, Card, CardContent, Grid, Typography } from '@mui/material'
 import React from 'react'
-import MoneyOff from '@mui/icons-material'
-import ArrowDownwardIcon from '@mui/icons-material'
 
 
 
@@ -58,7 +56,6 @@ const DashboradList= () => {
                     alignItems: 'center'
                     }}
                 >
-                    {/* <ArrowDownwardIcon color="error" /> */}
                     error
                     <Typography
                     color="error"
@@ -125,7 +122,6 @@ const DashboradList= () => {
                     alignItems: 'center'
                     }}
                 >
-                    {/* <ArrowDownwardIcon color="error" /> */}
                     error
                     <Typography
                     color="error"
@@ -192,7 +188,6 @@ const DashboradList= () => {
                     alignItems: 'center'
                     }}
                 >
-                    {/* <ArrowDownwardIcon color="error" /> */}
                     error
                     <Typography
                     color="error"
@@ -259,7 +254,6 @@ const DashboradList= () => {
                     alignItems: 'center'
                     }}
                 >
-                    {/* <ArrowDownwardIcon color="error" /> */}
                     error
                     <Typography
                     color="error"

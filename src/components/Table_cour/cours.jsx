@@ -7,9 +7,7 @@ import Paper from '@mui/material/Paper';
 import { DataGrid } from '@mui/x-data-grid';
 
 import { CssBaseline, Divider, FormControl, Grid, InputLabel, MenuItem, Select, Slide, Stack, TextField } from '@mui/material';
-import ArchiveIcon from '@mui/icons-material/Archive';
-import EditIcon from '@mui/icons-material/Edit';
-import { styled } from '@mui/material/styles';
+import { styled, useTheme } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -17,15 +15,12 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
-import { Info, PersonAdd, RefreshOutlined } from '@mui/icons-material';
-import CloseIcon from '@mui/icons-material/Close';
+import { PersonAdd } from '@mui/icons-material';
 import Modal from 'react-modal';
-import { SnackbarProvider, useSnackbar } from 'notistack';
+
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Swal from 'sweetalert2'
-import DetailPanelCour from '../dialog/detailPanel'
 import CustomizedMenusCour from './custom_button';
 import moment from 'moment';
 
@@ -73,17 +68,6 @@ createData.propTypes = {
 
 const PAGE_SIZE = 5;
 
-const loadServerRows=(cursor, data)=> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const start = cursor ? data.rows.findIndex((row) => row.id === cursor) : 0;
-      const end = start + PAGE_SIZE;
-      const rows = data.rows.slice(start, end);
-
-      resolve({ rows, nextCursor: data.rows[end]?.id });
-    }, Math.random() * 200 + 100); // simulate network latency
-  });
-}
 
 const customStyles = {
     content: {
@@ -99,7 +83,7 @@ const customStyles = {
     },
   }; 
 
-// Modal.setAppElement('main');
+
 
 const TableUserCour=({role})=> {
 
@@ -169,10 +153,6 @@ const TableUserCour=({role})=> {
       })
     }
 
-    function afteropenModalEdit() {
-      // references are now sync'd and can be accessed.
-      subtitle.style.color = '#000';
-    }
 
     const Capitalize=(str)=>{
       return str.charAt(0).toUpperCase() + str.slice(1);
@@ -188,18 +168,9 @@ const TableUserCour=({role})=> {
       setOpenEdit(false)
     }
 
-    function afteropenModalAdd() {
-      subtitle.style.color = '#fff';
-    }
-
-    function closeModalAdd() {
-      setIsOpenEdit(false);
-    }
 
 
-    const handleChange = (event) => {
-      setChecked(event.target.checked);
-    };
+
   
     const notify = (msg) => toast(msg);
     const errorMsg = (icon,msg)=>Toast.fire({
@@ -298,29 +269,8 @@ const TableUserCour=({role})=> {
           });
     }
 
-    const getProfId=(id)=>{
-      
-  
-        return fetch(`http://localhost:8000/api/user/${id}`, {
-     
-          method: 'GET',
-                 headers: {
-                  'Content-Type': 'application/json',
-                  'Accept': 'application/json',
-                  'Authorization': `Bearer ${bearer_token}`
-              },
-              
-        }).then((res) => res.json())
-          .then((res) => {   
-              if(res)   
-                setidEdit(res.filter(x=> x.is_active && x.role ==='proffesseur'))   
-          })
-          .catch((error) => {
-              console.log(error)
-          });
-    }
 
-    const updateUser=(id)=>{
+    const updateUser=()=>{
       
   
       return fetch(`http://localhost:8000/api/user`, {
@@ -753,7 +703,7 @@ const TableUserCour=({role})=> {
                                 >
                                     {
                                         user.length >0 ?(
-                                            user && user.map((data,index)=>{
+                                            user && user.map((data)=>{
                                                 return(
                                                 <MenuItem value={data.id}>{data.last_name} {data.first_name}</MenuItem>
                                                 )

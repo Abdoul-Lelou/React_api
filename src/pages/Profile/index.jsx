@@ -1,20 +1,14 @@
 import React from 'react'
 import useMediaQuery from '@mui/material/useMediaQuery';
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
+
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import CollapsibleTable from '../../components/Table_user';
-import { Facebook, Twitter, LinkedIn, GitHub } from '@mui/icons-material';
-import { Grid, CssBaseline, Typography, Container, Avatar, styled, IconButton, Skeleton, TextField, InputAdornment, Chip } from '@mui/material';
 
-import { Paper } from '@mui/material';
+import ListItemText from '@mui/material/ListItemText';
+
+import { Grid,Paper, CssBaseline, Typography, Container, Avatar, styled,  Skeleton,  Chip } from '@mui/material';
+
 import FormDetailPanel from '../../components/Table_cour';
 import BasicTabs from './profileTab';
 import moment from 'moment';
@@ -23,7 +17,6 @@ import moment from 'moment';
 
 const Profile = ({userLogin}) => {
 
-  const bearer_token= localStorage.getItem('tokenDjango');
   const matches = useMediaQuery('(min-width:900px)');
   const urlImg = 'http://127.0.0.1:8000/api'
 
@@ -68,9 +61,7 @@ const Profile = ({userLogin}) => {
               </ListItemText>
           </ListItem>
           <Divider light />
-          {/* <ListItem >
-          <ListItemText primary="Spam" />
-          </ListItem> */}
+          
     </List>
     )
 }

@@ -7,9 +7,7 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SettingsAccessibilityIcon from '@mui/icons-material/SettingsAccessibility';
 import AttributionIcon from '@mui/icons-material/Attribution';
-import InfiniteScroll from 'react-infinite-scroller';
-import { Avatar, Checkbox, Divider, IconButton, List, ListItem, Chip, ListItemButton, ListItemText } from '@mui/material';
-import moment from 'moment'
+import { Divider, IconButton, List, ListItem, Chip, ListItemText } from '@mui/material';
 
 
 export default function ControlledAccordions({userLogin}) {
@@ -22,14 +20,7 @@ export default function ControlledAccordions({userLogin}) {
 
   };
 
-  const style = {
-    width: '100%',
-    // maxWidth: 360,
-    bgcolor: 'background.paper',
-    // border:'1px solid red'
-  };
-
-// console.log(userLogin)
+  
 
   const ListInfo1=()=>{
       return(
