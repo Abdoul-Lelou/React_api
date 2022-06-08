@@ -81,7 +81,21 @@ const customStyles = {
       width: '60%',
       boxShadow: '2px'
     },
-  }; 
+}; 
+
+const customStylesMobile = {
+  content: {
+    top: '55%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    margin: 'auto',
+    transform: 'translate(-50%, -50%)',
+    background: '#d8d8d8',
+    width: '90%',
+    // boxShadow: '2px'
+  },
+};
 
 
 
@@ -123,7 +137,7 @@ const TableUserCour=({role})=> {
 
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
-    let subtitle, minDate='';
+    const matches = useMediaQuery('(min-width:900px)');
     let today = new Date().toISOString().slice(0, 10)
 
     
@@ -184,7 +198,6 @@ const TableUserCour=({role})=> {
         const dateMin =  new Date()
         getCours();
         getProf();
-        minDate = '"'+moment(dateMin.getDate()).format('YYYY-MM-DD')+'"'
         convertDate()
         return () => {
           setCours('');
@@ -643,17 +656,20 @@ const TableUserCour=({role})=> {
 
 
           
-            <Modal
-              isOpen={modalEditIsOpen}
-              // onAfterOpen={afteropenModalEdit}
-              onRequestClose={closeModal}
-              style={customStyles}
-              contentLabel="Example Modal"
-              ariaHideApp={false}
-              // appElement={document.getElementById('app')}
-              
-            >
-                
+            {
+              matches?(
+                <>
+                <Modal
+                  isOpen={modalEditIsOpen}
+                  // onAfterOpen={afteropenModalEdit}
+                  onRequestClose={closeModal}
+                  style={customStyles}
+                  contentLabel="Example Modal"
+                  ariaHideApp={false}
+                  // appElement={document.getElementById('app')}
+                  
+                >
+                    
 
                 <Box sx={{ flexGrow: 1 , m:2}}>
                     <Grid container spacing={0}>
@@ -682,6 +698,7 @@ const TableUserCour=({role})=> {
                                     label="Déscription"
                                     multiline
                                     rows={8}
+                                    required
                                 />       
                             </FormControl>
                         
@@ -691,59 +708,131 @@ const TableUserCour=({role})=> {
                         
                             <FormControl fullWidth={true} >
                                 
-                                <InputLabel >Poffesseur</InputLabel>
-                                <Select
-                                    
-                                    value={userEdit? userEdit: ''}
-                                    label="Poffesseur"
-                                    onChange={e=>setuserEdit(e.target.value)}
-                                    sx={{ m: 1 }}
-                                    placeholder='Proffesseur'
-                                    onClick={()=>getProf()}
-                                >
-                                    {
-                                        user.length >0 ?(
-                                            user && user.map((data)=>{
-                                                return(
-                                                <MenuItem value={data.id}>{data.last_name} {data.first_name}</MenuItem>
-                                                )
-                                            })
-                                        ):(
-                                            <MenuItem>Vide</MenuItem>
-                                        )
-                                    }
-                                    
+                                
+                            {
+                                  role ==='admin'?(
+                                    <> 
+                                      <InputLabel >Poffesseur</InputLabel>
+                                      <Select
+                                      
+                                          value={userEdit? userEdit: ''}
+                                          label="Poffesseur"
+                                          onChange={e=>setuserEdit(e.target.value)}
+                                          sx={{ m: 3, width:210 }}
+                                          placeholder='Proffesseur'
+                                          onClick={()=>getProf()}
+                                          required
+                                          
+                                      >
+                                          {
+                                              user.length >0 ?(
+                                                  user && user.map((data)=>{
+                                                      return(
+                                                      <MenuItem value={data.id}>{data.last_name} {data.first_name}</MenuItem>
+                                                      )
+                                                  })
+                                              ):(
+                                                  <MenuItem>Vide</MenuItem>
+                                              )
+                                          }                                  
 
-                                </Select>
+                                      </Select>
 
-                                <Divider />
+                                      <Divider variant='middle' sx={{width:'198%', color:'#009986'}}/>
 
-                                <TextField 
-                                    label="Nom" 
-                                    value={nomEdit} 
-                                    onChange={e=>setnomEdit(e.target.value)}
-                                    variant="outlined" placeholder='Nom'
-                                    sx={{ m: 1 }}
-                                />
+                                      <TextField 
+                                          label="Nom" 
+                                          value={nomEdit} 
+                                          onChange={e=>setnomEdit(e.target.value)}
+                                          variant="outlined" placeholder='Nom'
+                                          sx={{ m: 2, p:1, width:228 }}
+                                          required
+                                      />
+                                      
+                                      
+                                      <Divider variant='middle' sx={{width:'198%', color:'#009986'}}/>
+                                  
+                                      
+                                      <TextField 
+                                          label="date"
+                                          type='date'
+                                          value={dateEdit} 
+                                          onChange={e=>setdateEdit(e.target.value)} 
+                                          variant="outlined"
+                                          placeholder='date'
+                                          sx={{ m: 2, p:1, width:228 }}
+                                          required
+                                      />
+                                      
                                 
                                 
-                                <Divider />
-                            
                                 
-                                <TextField 
-                                    label="date"
-                                    type='date'
-                                    value={dateEdit} 
-                                    onChange={e=>setdateEdit(e.target.value)} 
-                                    variant="outlined"
-                                    placeholder='date'
-                                    sx={{ m: 1 }}
+
+                                    </>
+                                  ):(
+                                    <>
+                                      <Select
+                                      
+                                      value={userEdit? userEdit: ''}
+                                      label="Poffesseur"
+                                      onChange={e=>setuserEdit(e.target.value)}
+                                      sx={{ m: 3, width:210 }}
+                                      placeholder='Proffesseur'
+                                      onClick={()=>getProf()}
+                                      inputProps={{ readOnly: true }}
+                                      >
+                                      {
+                                          user.length >0 ?(
+                                              user && user.map((data)=>{
+                                                  return(
+                                                  <MenuItem value={data.id}>{data.last_name} {data.first_name}</MenuItem>
+                                                  )
+                                              })
+                                          ):(
+                                              <MenuItem>Vide</MenuItem>
+                                          )
+                                      }
+                                      
+
+                                      </Select>
+
+                                      <Divider variant='middle' sx={{width:'198%', color:'#009986'}}/>
+
+                                      <TextField 
+                                          label="Nom" 
+                                          value={nomEdit} 
+                                          onChange={e=>setnomEdit(e.target.value)}
+                                          variant="outlined" placeholder='Nom'
+                                          sx={{ m: 2, p:1, width:228 }}
+                                          InputProps={{
+                                            readOnly: true,
+                                          }}
+                                      />
+                                      
+                                      
+                                      <Divider variant='middle' sx={{width:'198%', color:'#009986'}}/>
+                                  
+                                      
+                                      <TextField 
+                                          label="date"
+                                          type='date'
+                                          value={dateEdit} 
+                                          onChange={e=>setdateEdit(e.target.value)} 
+                                          variant="outlined"
+                                          placeholder='date'
+                                          sx={{ m: 2, p:1, width:228 }}
+                                          InputProps={{
+                                            readOnly: true,
+                                          }}
+                                      />
+                                      
                                 
-                                />
                                 
                                 
-                                
-                                
+
+                                    </>  
+                                  )
+                                }
 
                                 
                             </FormControl>
@@ -772,144 +861,495 @@ const TableUserCour=({role})=> {
                 </Box>
 
                             
-            </Modal>
+                </Modal>
 
-            <Modal
-              isOpen={modalAddIsOpen}
-              // onAfterOpen={afteropenModalAdd}
-              onRequestClose={closeModal}
-              style={customStyles}
-              contentLabel="Example Modal"
-              ariaHideApp={false}
-              // appElement={document.getElementById('app')}
+                <Modal
+                  isOpen={modalAddIsOpen}
+                  // onAfterOpen={afteropenModalAdd}
+                  onRequestClose={closeModal}
+                  style={customStyles}
+                  contentLabel="Example Modal"
+                  ariaHideApp={false}
+                  // appElement={document.getElementById('app')}
 
-            >
-                
+                >
+                    
+                    <Box sx={{ flexGrow: 1 , m:2}}>
+                        <Grid container spacing={0}>
+                            <Grid item md={12} alignItems='center'>
+                                <Item sx={{borderBottom:'#c8d8c8 1px solid', background:'#fffff8'}} md={4} align='center'>
+                                    <Typography variant='h6'>AJOUTER </Typography>
+                                </Item>
+                            </Grid>
+                            {/* <Grid item xs={6}>
+                            <Item sx={{borderBottom:'red 1px solid'}}><Typography variant='h6'>APPRENANTS <SchoolIcon/></Typography></Item>
+                            </Grid> */}
+                            
+                        </Grid>
+                    </Box>
+
+                    <Box sx={{ flexGrow: 1 , m:2}}>
+                    
+                        <Grid container sx={{m:'15px auto', borderRaduis:'20px', background:'#fffff8', boxShadow:4}} spacing={2} md={12} alignContent='center'>
+            
+                            <Grid item sm={6} >
+                                
+                                    <FormControl fullWidth={true} >
+                                                            
+                                        <TextField 
+                                            value={Capitalize(descriptionAdd)} 
+                                            onChange={e=>{setdescriptionAdd(e.target.value)}} 
+                                            variant="outlined" placeholder='Déscription'
+                                            id="outlined-multiline-static"
+                                            label="Déscription"
+                                            multiline
+                                            rows={8}
+                                        />       
+                                    </FormControl>
+                            
+                            </Grid>
+
+                            <Grid item xs={6} sx={{p:2}}>
+                                
+                                    <FormControl fullWidth={true} >
+                                        
+                                        <InputLabel >Poffesseur</InputLabel>
+                                        <Select
+                                        
+                                        value={userAdd}
+                                        label="Poffesseur"
+                                        onChange={e=>setuserAdd(e.target.value)}
+                                        sx={{ m: 1 }}
+                                        placeholder='Role'
+                                        >
+                                        {
+                                            user && user.map((data,index)=>{
+                                                return(
+                                                    <MenuItem key={index} value={data.id}>{data.last_name} {data.first_name}</MenuItem>
+                                                )
+                                            })
+                                        }
+                                        
+
+                                        </Select>
+
+                                        <Divider />
+
+                                        <TextField 
+                                            label="Nom" 
+                                            value={Capitalize(nomAdd)} 
+                                            onChange={e=>setnomAdd(e.target.value)}
+                                            variant="outlined" placeholder='Nom'
+                                            sx={{ m: 1 }}
+                                        />
+                                        
+                                        
+                                        <Divider />
+                                    
+                                        
+                                        <TextField 
+                                            // id="outlined-password-input" 
+                                            label="date"
+                                            type='date'
+                                            value={dateAdd} 
+                                            // defaultValue={new Date().getDate()}
+                                            onChange={e=>setdateAdd(e.target.value)} 
+                                            variant="outlined"
+                                            // defaultValue='jj/mm/aaaa'
+                                            placeholder='date'
+                                            InputProps={{InputProps: {min: "2022-04-17", max: "2023-05-04"} }}
+                                            InputLabelProps={{ shrink: true, required: true }}
+                                            sx={{ m: 1 }}
+                                        
+                                        />
+                                        
+                                        
+                                        
+                                        
+
+                                        
+                                    </FormControl>
+                                
+                            </Grid>
+                            <Divider />
+                        
+                            <Typography component='div' align='center' sx={{ m:'0 auto', p:1}}>
+                                {
+                                    !descriptionAdd ||  !nomAdd  || !userAdd || !dateAdd  ?(
+                                    <Button color='text' variant='contained' disabled>Ajouter</Button>
+                                    ):(
+                                    <Button 
+                                        variant='contained'
+                                        color='primary'
+                                        onClick={()=> 
+                                            courRegistre()
+                                        }
+                                    >Ajouter</Button>
+                                    )
+                                }
+                                &nbsp;
+                                <Button color='error' variant='contained' onClick={()=>closeModal()}>Annuler</Button>
+                            </Typography>
+            
+                        </Grid>
+                  
+                    </Box>
+
+                      
+                    
+
+                </Modal>
+               </>
+              ):(
+                <>
+                <Modal
+                  isOpen={modalEditIsOpen}
+                  // onAfterOpen={afteropenModalEdit}
+                  onRequestClose={closeModal}
+                  style={customStylesMobile}
+                  contentLabel="Example Modal"
+                  ariaHideApp={false}
+                  // appElement={document.getElementById('app')}
+                  
+                >
+                    
+
                 <Box sx={{ flexGrow: 1 , m:2}}>
                     <Grid container spacing={0}>
+
                         <Grid item md={12} alignItems='center'>
                             <Item sx={{borderBottom:'#c8d8c8 1px solid', background:'#fffff8'}} md={4} align='center'>
-                                <Typography variant='h6'>AJOUTER </Typography>
+                                <Typography variant='h6'>MODIFIER </Typography>
                             </Item>
-                        </Grid>
-                        {/* <Grid item xs={6}>
-                        <Item sx={{borderBottom:'red 1px solid'}}><Typography variant='h6'>APPRENANTS <SchoolIcon/></Typography></Item>
-                        </Grid> */}
+                        </Grid>                     
                         
                     </Grid>
                 </Box>
 
-                <Box sx={{ flexGrow: 1 , m:2}}>
-                
-                    <Grid container sx={{m:'15px auto', borderRaduis:'20px', background:'#fffff8', boxShadow:4}} spacing={2} md={12} alignContent='center'>
-        
-                        <Grid item sm={6} >
+                <Box sx={{ flexGrow: 1 , m:2}}>      
+                    <Grid container sx={{m:'15px auto', borderRaduis:'20px', background:'#fffff8', boxShadow:4}} spacing={2} md={12} >
+                   
+                        <Grid item sm={6}  sx={{m:'8px'}}>
                             
-                                <FormControl fullWidth={true} >
+                            <FormControl fullWidth={true} >
                                                         
-                                    <TextField 
-                                        value={Capitalize(descriptionAdd)} 
-                                        onChange={e=>{setdescriptionAdd(e.target.value)}} 
-                                        variant="outlined" placeholder='Déscription'
-                                        id="outlined-multiline-static"
-                                        label="Déscription"
-                                        multiline
-                                        rows={8}
-                                    />       
-                                </FormControl>
+                                <TextField 
+                                    value={descriptionEdit} 
+                                    onChange={e=>setdescriptionEdit(e.target.value)} 
+                                    variant="outlined" placeholder='Déscription'
+                                    id="outlined-multiline-static"
+                                    label="Déscription"
+                                    multiline
+                                    rows={7}
+                                    sx={{m:2,}}
+                                    required
+                                />       
+                            </FormControl>
                         
                         </Grid>
 
                         <Grid item xs={6} sx={{p:2}}>
-                            
-                                <FormControl fullWidth={true} >
-                                    
-                                    <InputLabel >Poffesseur</InputLabel>
-                                    <Select
-                                    
-                                    value={userAdd}
-                                    label="Poffesseur"
-                                    onChange={e=>setuserAdd(e.target.value)}
-                                    sx={{ m: 1 }}
-                                    placeholder='Role'
-                                    >
-                                    {
-                                        user && user.map((data,index)=>{
-                                            return(
-                                                <MenuItem key={index} value={data.id}>{data.last_name} {data.first_name}</MenuItem>
-                                            )
-                                        })
-                                    }
-                                    
-
-                                    </Select>
-
-                                    <Divider />
-
-                                    <TextField 
-                                        label="Nom" 
-                                        value={Capitalize(nomAdd)} 
-                                        onChange={e=>setnomAdd(e.target.value)}
-                                        variant="outlined" placeholder='Nom'
-                                        sx={{ m: 1 }}
-                                    />
-                                    
-                                    
-                                    <Divider />
+                        
+                            <FormControl fullWidth={true} >
                                 
-                                    
-                                    <TextField 
-                                        // id="outlined-password-input" 
-                                        label="date"
-                                        type='date'
-                                        value={dateAdd} 
-                                        // defaultValue={new Date().getDate()}
-                                        onChange={e=>setdateAdd(e.target.value)} 
-                                        variant="outlined"
-                                        // defaultValue='jj/mm/aaaa'
-                                        placeholder='date'
-                                        InputProps={{InputProps: {min: "2022-04-17", max: "2023-05-04"} }}
-                                        InputLabelProps={{ shrink: true, required: true }}
-                                        sx={{ m: 1 }}
-                                    
-                                    />
-                                    
-                                    
-                                    
-                                    
+                                {
+                                  role ==='admin'?(
+                                    <> 
+                                      <InputLabel >Poffesseur</InputLabel>
+                                      <Select
+                                      
+                                          value={userEdit? userEdit: ''}
+                                          label="Poffesseur"
+                                          onChange={e=>setuserEdit(e.target.value)}
+                                          sx={{ m: 3, width:210 }}
+                                          placeholder='Proffesseur'
+                                          onClick={()=>getProf()}
+                                          required
+                                          
+                                      >
+                                          {
+                                              user.length >0 ?(
+                                                  user && user.map((data)=>{
+                                                      return(
+                                                      <MenuItem value={data.id}>{data.last_name} {data.first_name}</MenuItem>
+                                                      )
+                                                  })
+                                              ):(
+                                                  <MenuItem>Vide</MenuItem>
+                                              )
+                                          }                                  
 
-                                    
-                                </FormControl>
-                            
+                                      </Select>
+
+                                      <Divider variant='middle' sx={{width:'198%', color:'#009986'}}/>
+
+                                      <TextField 
+                                          label="Nom" 
+                                          value={nomEdit} 
+                                          onChange={e=>setnomEdit(e.target.value)}
+                                          variant="outlined" placeholder='Nom'
+                                          sx={{ m: 2, p:1, width:228 }}
+                                          required
+                                      />
+                                      
+                                      
+                                      <Divider variant='middle' sx={{width:'198%', color:'#009986'}}/>
+                                  
+                                      
+                                      <TextField 
+                                          label="date"
+                                          type='date'
+                                          value={dateEdit} 
+                                          onChange={e=>setdateEdit(e.target.value)} 
+                                          variant="outlined"
+                                          placeholder='date'
+                                          sx={{ m: 2, p:1, width:228 }}
+                                          required
+                                      />
+                                      
+                                
+                                
+                                
+
+                                    </>
+                                  ):(
+                                    <>
+                                      <Select
+                                      
+                                      value={userEdit? userEdit: ''}
+                                      label="Poffesseur"
+                                      onChange={e=>setuserEdit(e.target.value)}
+                                      sx={{ m: 3, width:210 }}
+                                      placeholder='Proffesseur'
+                                      onClick={()=>getProf()}
+                                      inputProps={{ readOnly: true }}
+                                      >
+                                      {
+                                          user.length >0 ?(
+                                              user && user.map((data)=>{
+                                                  return(
+                                                  <MenuItem value={data.id}>{data.last_name} {data.first_name}</MenuItem>
+                                                  )
+                                              })
+                                          ):(
+                                              <MenuItem>Vide</MenuItem>
+                                          )
+                                      }
+                                      
+
+                                      </Select>
+
+                                      <Divider variant='middle' sx={{width:'198%', color:'#009986'}}/>
+
+                                      <TextField 
+                                          label="Nom" 
+                                          value={nomEdit} 
+                                          onChange={e=>setnomEdit(e.target.value)}
+                                          variant="outlined" placeholder='Nom'
+                                          sx={{ m: 2, p:1, width:228 }}
+                                          InputProps={{
+                                            readOnly: true,
+                                          }}
+                                      />
+                                      
+                                      
+                                      <Divider variant='middle' sx={{width:'198%', color:'#009986'}}/>
+                                  
+                                      
+                                      <TextField 
+                                          label="date"
+                                          type='date'
+                                          value={dateEdit} 
+                                          onChange={e=>setdateEdit(e.target.value)} 
+                                          variant="outlined"
+                                          placeholder='date'
+                                          sx={{ m: 2, p:1, width:228 }}
+                                          InputProps={{
+                                            readOnly: true,
+                                          }}
+                                      />
+                                      
+                                
+                                
+                                
+
+                                    </>  
+                                  )
+                                }
+
+                                
+                                
+                            </FormControl>
+                        
                         </Grid>
+
                         <Divider />
                     
                         <Typography component='div' align='center' sx={{ m:'0 auto', p:1}}>
                             {
-                                !descriptionAdd ||  !nomAdd  || !userAdd || !dateAdd  ?(
-                                <Button color='text' variant='contained' disabled>Ajouter</Button>
-                                ):(
+                            !nomEdit || !descriptionEdit || !dateEdit || !userEdit ?(
+                                <Button color='text' variant='contained' disabled>Modifier</Button>
+                            ):(
                                 <Button 
-                                    variant='contained'
-                                    color='primary'
-                                    onClick={()=> 
-                                        courRegistre()
-                                    }
-                                >Ajouter</Button>
-                                )
+                                  variant='contained'
+                                  color='primary'
+                                  onClick={()=> courUpdate()}
+                                >Modifier</Button>
+                            )
                             }
                             &nbsp;
                             <Button color='error' variant='contained' onClick={()=>closeModal()}>Annuler</Button>
                         </Typography>
-        
+                    
                     </Grid>
-              
                 </Box>
 
-                   
-                
+                            
+                </Modal>
 
-            </Modal>
+                <Modal
+                  isOpen={modalAddIsOpen}
+                  // onAfterOpen={afteropenModalAdd}
+                  onRequestClose={closeModal}
+                  style={customStylesMobile}
+                  contentLabel="Example Modal"
+                  ariaHideApp={false}
+                  // appElement={document.getElementById('app')}
+
+                >
+                    
+                    <Box sx={{ flexGrow: 1 , m:2}}>
+                        <Grid container spacing={0}>
+                            <Grid item md={12} alignItems='center'>
+                                <Item sx={{borderBottom:'#c8d8c8 1px solid', background:'#fffff8'}} md={4} align='center'>
+                                    <Typography variant='h6'>AJOUTER </Typography>
+                                </Item>
+                            </Grid>
+                            {/* <Grid item xs={6}>
+                            <Item sx={{borderBottom:'red 1px solid'}}><Typography variant='h6'>APPRENANTS <SchoolIcon/></Typography></Item>
+                            </Grid> */}
+                            
+                        </Grid>
+                    </Box>
+
+                    <Box sx={{ flexGrow: 1 , m:2}}>
+                    
+                        <Grid container sx={{m:'15px auto', borderRaduis:'20px', background:'#fffff8', boxShadow:4}} spacing={2} md={12} alignContent='center'>
+            
+                            <Grid item sm={6} sx={{m:'5px'}}>
+                                
+                                    <FormControl fullWidth={true} >
+                                                            
+                                        <TextField 
+                                            value={Capitalize(descriptionAdd)} 
+                                            onChange={e=>{setdescriptionAdd(e.target.value)}} 
+                                            variant="outlined" placeholder='Déscription'
+                                            id="outlined-multiline-static"
+                                            label="Déscription"
+                                            multiline
+                                            rows={7}
+                                            sx={{m:2,}}
+                                            required
+                                        />       
+                                    </FormControl>
+                            
+                            </Grid>
+
+                            <Grid item xs={6} sx={{m:'8px'}}>
+                                
+                                    <FormControl fullWidth={true} >
+                                        
+                                        <InputLabel >Poffesseur</InputLabel>
+                                        <Select
+                                        
+                                        value={userAdd}
+                                        label="Poffesseur"
+                                        onChange={e=>setuserAdd(e.target.value)}
+                                        sx={{ m: 2, width:210 }}
+                                        placeholder='Role'
+                                        required
+                                        >
+                                        {
+                                            user && user.map((data,index)=>{
+                                                return(
+                                                    <MenuItem key={index} value={data.id}>{data.last_name} {data.first_name}</MenuItem>
+                                                )
+                                            })
+                                        }
+                                        
+
+                                        </Select>
+
+                                        <Divider variant='middle' sx={{width:'185%', color:'#009986'}}/>
+
+                                        <TextField 
+                                            label="Nom" 
+                                            value={Capitalize(nomAdd)} 
+                                            onChange={e=>setnomAdd(e.target.value)}
+                                            variant="outlined" placeholder='Nom'
+                                            sx={{ m: 1, p:1, width:228 }}
+                                            required
+                                        />
+                                        
+                                        
+                                        <Divider variant='middle' sx={{width:'185%', color:'#009986'}}/>
+                                    
+                                        
+                                        <TextField 
+                                            // id="outlined-password-input" 
+                                            label="date"
+                                            type='date'
+                                            value={dateAdd} 
+                                            // defaultValue={new Date().getDate()}
+                                            onChange={e=>setdateAdd(e.target.value)} 
+                                            variant="outlined"
+                                            // defaultValue='jj/mm/aaaa'
+                                            placeholder='date'
+                                            InputProps={{InputProps: {min: "2022-04-17", max: "2023-05-04"} }}
+                                            InputLabelProps={{ shrink: true, required: true }}
+                                            sx={{ m: 1, p:1, width:228}}
+                                            required
+                                        />
+                                        
+                                        
+                                        
+                                        
+
+                                        
+                                    </FormControl>
+                                
+                            </Grid>
+                            {/* <Divider variant='middle' sx={{width:'185%', color:'#009986'}}/> */}
+                        
+                            <Typography component='div' align='center' sx={{ m:'0 auto', p:1}}>
+                                {
+                                    !descriptionAdd ||  !nomAdd  || !userAdd || !dateAdd  ?(
+                                    <Button color='text' variant='contained' disabled>Ajouter</Button>
+                                    ):(
+                                    <Button 
+                                        variant='contained'
+                                        color='primary'
+                                        onClick={()=> 
+                                            courRegistre()
+                                        }
+                                    >Ajouter</Button>
+                                    )
+                                }
+                                &nbsp;
+                                <Button color='error' variant='contained' onClick={()=>closeModal()}>Annuler</Button>
+                            </Typography>
+            
+                        </Grid>
+                  
+                    </Box>
+
+                      
+                    
+
+                </Modal>
+               </>
+              )
+            }
 
             
 

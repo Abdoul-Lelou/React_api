@@ -6,7 +6,9 @@ import { Grid, CssBaseline, Typography, Container, Box, Chip, styled, Tooltip,Pa
 import TableDisabled from '../../components/Table_disabled';
 import TableUser from '../../components/Table_user';
 import Title from './title';
+
 import MobileTabUser from './mobile-user'
+import { PeopleAltRounded } from '@mui/icons-material';
 
 
 
@@ -127,13 +129,38 @@ const User = () => {
          </Paper> 
          </>  
          ):(
-        
+
          <>
-         <Grid  container style={{ height:'20%', width:'initial'}} direction="column" maxWidth='xl'>   
-     
-            <MobileTabUser userEnable={userEnable} userDisabled={userDisabled} />
-           </Grid> 
+         <Title />
+
+         <Paper elevation={3} sx={{mt:0}}>  
+               <Grid  container  maxWidth='xl' 
+                  style={{  width:'100%', height:'80vh', margin:'0 auto'}} direction="row" rowSpacing={4}
+               >            
+                  <Grid item  xs={12} style={{margin: '0', padding:4, }} >
+                     <TableUser userget={userEnable} cours={cours}/>  
+                  </Grid>
+                  
+                  <Grid item sm={12} style={{ padding: 4, margin:'0 auto'}} >
+                           <TableDisabled disabledUser={userDisabled}/>
+                  </Grid>                    
+                     
+               </Grid> 
+              
+                     <Item sx={{borderBottom:'green 1px solid'}}> 
+                         <Typography variant='subtitle2'>
+                           <Divider >
+                              <Tooltip describeChild title="List de tout les utilisateurs.">
+                                 <Chip clickable label="DISABLED" color='error'/>
+                              </Tooltip>
+                           </Divider>
+                         </Typography> 
+                     </Item> 
+                  
+         </Paper> 
+
          </>
+
           
          )}
          

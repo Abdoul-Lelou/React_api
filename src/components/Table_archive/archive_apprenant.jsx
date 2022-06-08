@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Avatar, Button, Grid, ButtonGroup, CssBaseline, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, Input, InputAdornment, List, ListItem, ListItemAvatar, ListItemText, Typography } from '@mui/material';
+import { Avatar, Button, Grid, ButtonGroup, CssBaseline, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, Input, InputAdornment, List, ListItem, ListItemAvatar, ListItemText, Typography, useMediaQuery, Chip } from '@mui/material';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Box } from '@mui/system';
 import UnarchiveIcon from '@mui/icons-material/Unarchive';
@@ -36,6 +36,8 @@ export default function ArchiveApprenant() {
   const [idArchive, setidArchive] = React.useState('');
   const [searchField, setSearchField] = React.useState('');
   const [dataSearch, setdataSearch] = React.useState('')
+
+  const matches = useMediaQuery('(min-width:900px)');
 
   React.useEffect(() => {
    getArchive();
@@ -395,7 +397,9 @@ export default function ArchiveApprenant() {
         archive && archive.length >0 ?(
           <>
           
-            <List  component="div" disablePadding sx={{ width: '100%', bgcolor: 'background.paper',   boxShadow: 2  }}
+            {
+              matches?(
+                <List  component="div" disablePadding sx={{ width: '100%', bgcolor: 'background.paper',   boxShadow: 2  }}
                     
                     style={{
                     height: 300,
@@ -407,9 +411,28 @@ export default function ArchiveApprenant() {
                 <CustomizedList />
 
             </List>
+              ):(
+                <>
+                  <Divider sx={{mb:1}}><Chip clickable label='APPRENANTS' color='success'/></Divider>
+                  <List  component="div" disablePadding sx={{ width: '100%', bgcolor: 'background.paper',   boxShadow: 2  }}
+                      
+                      style={{
+                      height: 250,
+                      overflow: 'auto',
+                      flexDirection: 'column-reverse',
+                      }}
+              > 
+                  <>
+                  <CustomizedList />
+                  </>
+
+                  </List>
+                </>
+              )
+            }
           
             <Grid container maxWidth='sm' sx={{background:'whhitesmoke', m:1}}>
-              <Grid item  sx={{p:0}} alignContent='flex-end'>
+              <Grid item  sx={{p:1}} alignContent='flex-end'>
               
                 <Input
                     id="input-with-icon-adornment"

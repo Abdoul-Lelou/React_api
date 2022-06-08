@@ -13,7 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
-import {  Chip, Divider,  Grid, Paper, styled } from '@mui/material';
+import {  Chip, Divider,  Grid, Paper, styled, useMediaQuery } from '@mui/material';
 import { Box } from '@mui/system';
 import moment from 'moment';
 
@@ -23,6 +23,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 function DetailPanelCour({detail, user}) {
   const [open, setOpen] = React.useState(false);
+  const matches = useMediaQuery('(min-width:900px)');
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -157,14 +158,31 @@ function DetailPanelCour({detail, user}) {
             >
               <CloseIcon />
             </IconButton>
-            <Typography sx={{ ml: 8, flex: 1 }} variant="h6" component="div" align='center'>
-              DÉTAIL
+            
+            {
+              matches?(
+                <Typography sx={{ mr:3, flex: 1 }} variant="h6" component="div" align='center'>
+                  Detail
+                </Typography>
+              ):(
+                <Typography sx={{flex: 1, }} variant="h6" component="div" align='center'>
+                  {detail && detail.map((data)=>{
+                    return(
+                      <>
+                          {data.nom.toUpperCase()}
+                      </>
+                    )
+                  })}
             </Typography>
+              )
+            }
           
           </Toolbar>
         </AppBar>
             
-          <Grid container sx={{m:'15px auto',  background:'#c8d8c8'}} spacing={2} md={8}>
+          {
+            matches?(
+              <Grid container sx={{m:'15px auto',  background:'#c8d8c8'}} spacing={2} md={8}>
               
               <Box sx={{ flexGrow: 1 , m:2}}>
 
@@ -226,7 +244,43 @@ function DetailPanelCour({detail, user}) {
 
               </Box>
 
+              </Grid>
+            ):(
+              <Grid container sx={{background:'#c8d8c8', height:'100%'}} spacing={0} md={8}>
+              
+              <Box sx={{ flexGrow: 1 , m:2, background:'#fff'}}>
+                                                          
+                    <List sx={{boxShadow:5}} >
+                        {detail && detail.map((data)=>{
+                              return(  
+                            <ListItem  divider>
+
+                                  <ListItemText 
+                                        primary={
+                                          <Typography variant='caption' sx={{textDecoration:'underline'}}>
+                                              Déscription
+                                          </Typography>
+                                        }
+
+                                        secondary={
+                                          <Typography variant='body1'>
+                                              {data.description}
+                                          </Typography>
+                                        }
+                                        
+                                        />
+                              </ListItem>
+                                )
+                        })} 
+                    </List>                            
+                  
+                  {ListInfo()}
+
+              </Box>
+
           </Grid>
+            )
+          }
 
       </Dialog>
     </div>

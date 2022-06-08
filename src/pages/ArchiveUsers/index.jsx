@@ -58,34 +58,18 @@ const Archives = () => {
 
     <>
       <CssBaseline />
-      <Container fixed>
+      <Container >
       {/* <Typography variant='h3'>Utilisateur</Typography> */}
      
          {matches ?(
          <> 
          <Title />
-         <Paper elevation={3} >  
+         <Paper elevation={1} >  
             <UserArchive userget={userEnable}/>  
          </Paper> 
          </>  
          ):(
-         <Paper elevation={0} style={{ height:'20%', width:'initial'}}> 
-          <Grid  container 
-           style={{ height:'20%', width:'initial'}} direction="column" maxWidth='xl'
-          >            
-             <Grid item>
-                  <MobileTable user={userEnable}/>  
-             </Grid>
-
-             <Divider />
-
-             <Grid item  sx={{marginTop:2, width:'100%'}}>
-                  <TableArchive disabledUser={userDisabled}/>
-             </Grid>
-           </Grid> 
-           
-
-         </Paper>  
+            <UserArchive userget={userEnable}/>  
          )}
          
     </Container>

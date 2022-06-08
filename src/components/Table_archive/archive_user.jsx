@@ -57,29 +57,29 @@ const UserArchive = () => {
                height: 300,
                overflow: 'auto',
                flexDirection: 'column-reverse',
-            }}
+               }}
             > 
 
             {
-            cours.length ?(
-               cours && cours.map((data,index)=>{
-                     return (
-                     <>
-                        {data.nom}
-                     <Divider variant="inset" component="li" />
+                  cours.length ?(
+                     cours && cours.map((data,index)=>{
+                           return (
+                           <>
+                              {data.nom}
+                           <Divider variant="inset" component="li" />
 
-                     </>
-                     )
-               })
-            ):(
-            <Box sx={{m:10}}>
-                  <Typography variant='h5'>
-                  Aucune donnée
-                  </Typography>
-            </Box>
-         )
+                           </>
+                           )
+                     })
+                  ):(
+                  <Box sx={{m:10}}>
+                        <Typography variant='h5'>
+                        Aucune donnée
+                        </Typography>
+                  </Box>
+               )
       
-      }
+            }
 
       
 
@@ -103,7 +103,7 @@ const UserArchive = () => {
       {/* <Container maxWidth='xl'> */}
       {/* <Title /> */}
          {matches ?(
-         <Paper elevation={4} >  
+         
             <Grid  container  maxWidth='xl' 
                style={{  width:'100%', height:'60vh', margin:'0 auto'}} 
                direction="row"
@@ -134,22 +134,35 @@ const UserArchive = () => {
                </Box>
 
             </Grid> 
-         </Paper> 
+         
          ):(
           
-          <Grid  container 
-           style={{ height:'50%', width:'initial'}} direction="column" maxWidth='xl'
-          >            
-             <Grid item   
-             >
-                {/* <FormDetailPanel />   */}
-             </Grid>
-             <Grid item  sx={{marginTop:2, width:'100%'}}>
-                 {/* <FormDetailPanel/> */}
-             </Grid>
+               <>            
+               <Grid item  md={12}  sx={{ background:'#fff', mt:2}}>           
+                     <ArchiveProffesseur/>    
+               </Grid>
+               
+               <Grid item sm={12}  sx={{ background:'#fff'}}>
+                  <ArchiveApprenant/>
+               </Grid>
+               
+                  <Box sx={{ flexGrow: 1 , m:0}}>
+                     <Grid container spacing={0}>
+                     <Grid item xs={12}>
+                        <Item sx={{borderBottom:'green 1px solid'}}>
+                           <Typography variant='subtitle2'>
+                                 <Divider >
+                                 <Tooltip describeChild title="Archives des proffesseurs et des apprenants.">
+                                    <Chip clickable label="ARCHIVES" />
+                                 </Tooltip>
+                              </Divider>
+                           </Typography>
+                        </Item>
+                     </Grid>
+                     </Grid>
+                  </Box>
 
-           </Grid> 
-
+               </> 
          )}
     {/* </Container> */}
     </>

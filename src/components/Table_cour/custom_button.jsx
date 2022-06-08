@@ -108,6 +108,13 @@ export default function CustomizedMenusCour({user, openModalEdit, courArchive, r
             <Divider sx={{ my: 0.5 }} />
           </>
         }
+        {
+          role === 'proffesseur' &&
+            <MenuItem onClick={()=>{update_user() ; openModalEdit(); handleClose()}} disableRipple>
+              <EditIcon />
+              Edit
+            </MenuItem>
+        }
         <MenuItem  disableRipple>
           {/* <MoreHorizIcon /> */}
           <DetailPanelCour detail={rowSelected} user={user}/>

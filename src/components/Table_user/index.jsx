@@ -21,6 +21,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Swal from 'sweetalert2';
 import CustomizedMenus from './custom_button';
+import bgForm from '../../images/bgForm.svg'
 
 
 
@@ -82,9 +83,24 @@ const customStyles = {
     bottom: 'auto',
     margin: 'auto',
     transform: 'translate(-50%, -50%)',
-    background: '#c8d8c8',
+    background: '#d8d8d8',
     width: '60%',
-    boxShadow: '2px'
+    boxShadow: '2px',
+    
+  },
+};
+
+const customStylesMobile = {
+  content: {
+    top: '55%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    margin: 'auto',
+    transform: 'translate(-50%, -50%)',
+    background: '#d8d8d8',
+    width: '90%',
+    // boxShadow: '2px'
   },
 };
 
@@ -439,9 +455,7 @@ const TableUser = ({ userget, cours }) => {
           tel: telEdit,
           role: roleEdit,
           username: prenomEdit,
-          email: emailEdit,
-          // image: image,
-          // is_archive: false
+          email: emailEdit
         })
       }).then((res) => res.json())
         .then((res) => {
@@ -512,17 +526,6 @@ const TableUser = ({ userget, cours }) => {
 
 
   const columns = [
-    {
-      field: 'image', headerName: 'Img', width: 60,
-      renderCell: ()=>(
-        // userget && userget.map((data)=>{
-        //   return(
-            
-            <Avatar  src={`http://127.0.0.1:8000/api`} />
-        //   )
-        // })
-      )
-    },
     { field: 'first_name', headerName: 'Prénom', width: 175 },
     { field: 'last_name', headerName: 'Nom', width: 130 },
     { field: 'email', headerName: 'Email', width: 210 },
@@ -554,823 +557,793 @@ const TableUser = ({ userget, cours }) => {
       <CssBaseline />
 
       {matches ?(
-        <div
-        style={{ height: 300, maxWidth: '100%', boxShadow: 8, background:'#fff' }}
-        sx={{
-          height: 400,
-          width: 1,
-          '& .MuiDataGrid-cell--editable': {
-            bgcolor: (theme) =>
-              theme.palette.mode === 'dark' ? '#376331' : 'rgb(217 243 190)',
-          },
-        }}
-        id='main'
-      >
+        <>
+          <div
+            style={{ height: 300, maxWidth: '100%', boxShadow: 8, background:'#fff' }}
+            sx={{
+              height: 400,
+              width: 1,
+              '& .MuiDataGrid-cell--editable': {
+                bgcolor: (theme) =>
+                  theme.palette.mode === 'dark' ? '#376331' : 'rgb(217 243 190)',
+              },
+            }}
+            id='main'
+          >
 
 
-        <DataGrid
-          columns={columns}
+              <DataGrid
+                columns={columns}
 
-          rows={userget}
-          onSelectionModelChange={(ids) => {
-            const selectedIDs = new Set(ids);
-            const selectedRows = userget.filter((row) =>
-              selectedIDs.has(row.id)
-            );
-            setRowSelected(selectedRows)
-          }}
-          // hideFooterPagination 
-          components={{
-            NoRowsOverlay: () => (
-              <Stack height="100%" alignItems="center" justifyContent="center">
-                <Typography variant='h4' color='HighlightText'>Aucune donnée </Typography>
-              </Stack>
-            ),
-            NoResultsOverlay: () => (
-              <Stack height="100%" alignItems="center" justifyContent="center">
-                Local filter returns no result
-              </Stack>
-            ),
+                rows={userget}
+                onSelectionModelChange={(ids) => {
+                  const selectedIDs = new Set(ids);
+                  const selectedRows = userget.filter((row) =>
+                    selectedIDs.has(row.id)
+                  );
+                  setRowSelected(selectedRows)
+                }}
+                // hideFooterPagination 
+                components={{
+                  NoRowsOverlay: () => (
+                    <Stack height="100%" alignItems="center" justifyContent="center">
+                      <Typography variant='h4' color='HighlightText'>Aucune donnée </Typography>
+                    </Stack>
+                  ),
+                  NoResultsOverlay: () => (
+                    <Stack height="100%" alignItems="center" justifyContent="center">
+                      Local filter returns no result
+                    </Stack>
+                  ),
 
-          }}
-
-
-
-          sx={{ paddingBottom: 0, borderBottom: '1px #009688 solid' }}
-          autoPageSize
-          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-          rowsPerPageOptions={[5, 10, 20]}
-          pagination
-          {...userget}
-          loading={loading}
-        />
+                }}
 
 
 
-
-        <Modal
-          isOpen={modalEditIsOpen}
-          // onAfterOpen={afteropenModalEdit}
-          onRequestClose={closeModal}
-          style={customStyles}
-          contentLabel="Example Modal"
-          ariaHideApp={false}
-          appElement={document.getElementById('app')}
-        >
-
-          <Box sx={{ flexGrow: 1, m: 2 }}>
-            <Grid container spacing={0}>
-              <Grid item md={12} alignItems='center'>
-                <Item sx={{ borderBottom: '#c8d8c8 1px solid', background: '#fffff8' }} md={4} align='center'>
-                  <Typography variant='h6'>MODIFIER </Typography>
-                </Item>
-              </Grid>
-              {/* <Grid item xs={6}>
-                        <Item sx={{borderBottom:'red 1px solid'}}><Typography variant='h6'>APPRENANTS <SchoolIcon/></Typography></Item>
-                        </Grid> */}
-
-            </Grid>
-          </Box>
-
-          <Box sx={{ flexGrow: 1, m: 2 }}>
-
-            <Grid container
-              sx={{
-                m: '15px auto',
-                borderRaduis: '20px',
-                background: rgbToHex('#fffff8'),
-                boxShadow: 4
-              }}
-              spacing={2}
-              md={12}
-            >
-              <Grid item sm={6} >
-
-                <FormControl fullWidth={true} >
-
-                  <TextField
-                    // id="outlined-basic" 
-                    label="NomEdit"
-                    value={nomEdit}
-                    onChange={e => setnomEdit(e.target.value)}
-                    variant="outlined" placeholder='Nom'
-                    sx={{ m: 1 }}
-                  />
-
-
-                  <Divider />
-
-
-                  <TextField
-                    // id="outlined-password-input" 
-                    label="PrenomEdit"
-                    value={prenomEdit}
-                    onChange={e => setprenomEdit(e.target.value)}
-                    variant="outlined" placeholder='Prenom'
-                    sx={{ m: 1 }}
-                  />
-
-
-                  <Divider />
-
-                  <TextField
-                    // id="outlined-basic" 
-                    label="EmailEdit"
-                    value={emailEdit}
-                    onChange={e => setemailEdit(e.target.value)}
-                    variant="outlined" placeholder='@gmail.com'
-                    sx={{ m: 1 }}
-                  />
+                sx={{ paddingBottom: 0, borderBottom: '1px #009688 solid' }}
+                autoPageSize
+                onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+                rowsPerPageOptions={[5, 10, 20]}
+                pagination
+                {...userget}
+                loading={loading}
+              />
 
 
 
 
+              <Modal
+                isOpen={modalEditIsOpen}
+                // onAfterOpen={afteropenModalEdit}
+                onRequestClose={closeModal}
+                style={customStyles}
+                contentLabel="Example Modal"
+                ariaHideApp={false}
+                appElement={document.getElementById('app')}
+              >
 
-                </FormControl>
-                {/* </Typography> */}
-              </Grid>
-              <Grid item xs={6} sx={{ p: 2 }}>
+                <Box sx={{ flexGrow: 1, m: 2 }}>
+                  <Grid container spacing={0}>
+                    <Grid item md={12} alignItems='center'>
+                      <Item sx={{ borderBottom: '#c8d8c8 1px solid', background: '#fffff8' }} md={4} align='center'>
+                        <Typography variant='h6'>MODIFIER </Typography>
+                      </Item>
+                    </Grid>
+                    
 
-                <FormControl fullWidth={true} >
+                  </Grid>
+                </Box>
 
-                  <InputLabel id="demo-simple-select-label-role">Role</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label-role"
-                    // id="demo-simple-select"
-                    value={roleEdit}
-                    label="RoleEdit"
-                    onChange={e => setroleEdit(e.target.value)}
-                    sx={{ m: 1 }}
-                    placeholder='RoleEdit'
+                <Box sx={{ flexGrow: 1, m: 2 }}>
+
+                  <Grid container
+                    sx={{
+                      m: '15px auto',
+                      borderRaduis: '20px',
+                      background: rgbToHex('#fffff8'),
+                      boxShadow: 4
+                    }}
+                    spacing={2}
+                    md={12}
                   >
-                    <MenuItem value='proffesseur'>Proffesseur</MenuItem>
-                    <MenuItem value='apprenant'>Apprenant</MenuItem>
+                    <Grid item sm={6} >
 
-                  </Select>
+                      <FormControl fullWidth={true} >
 
-                  <Divider />
-
-                  <TextField
-                    // id="outlined-basic" 
-                    label="PasswordEdit"
-                    type='password'
-                    // value={passwordEdit} 
-                    // onChange={e=>{setpasswordEdit(e.target.value)}}
-                    variant="outlined" placeholder='PasswordEdit'
-                    sx={{ m: 1 }}
-                    disabled
-                  />
+                        <TextField 
+                          label="NomEdit"
+                          value={nomEdit}
+                          onChange={e => setnomEdit(e.target.value)}
+                          variant="outlined" placeholder='Nom'
+                          sx={{ m: 1 }}
+                        />
 
 
-                  <Divider />
+                        <Divider sx={{background:'#009688'}} variant='middle' />
 
 
-                  <TextField
-                    // id="outlined-password-input" 
-                    label="TelEdit"
-                    value={telEdit}
-                    onChange={e => settelEdit(e.target.value)}
-                    variant="outlined" placeholder='Tel'
-                    sx={{ m: 1 }}
-                  />
+                        <TextField 
+                          label="PrenomEdit"
+                          value={prenomEdit}
+                          onChange={e => setprenomEdit(e.target.value)}
+                          variant="outlined" placeholder='Prenom'
+                          sx={{ m: 1 }}
+                        />
 
 
+                        <Divider sx={{background:'#009688'}} variant='middle' />
 
-
-
-                </FormControl>
-                {/* </Typography> */}
-              </Grid>
-              <Divider />
-              {/* <Grid item a> */}
-              <Typography align='center' sx={{ m: '0 auto', p: 1 }}>
-                {
-                  !emailEdit || !prenomEdit || !nomEdit || !roleEdit || !passwordEdit || !telEdit ? (
-                    <Button color='primary' variant='contained' disabled>Modifier</Button>
-                  ) : (
-                    <Button
-                      variant='contained'
-                      color='primary'
-                      onClick={() => userUpdateData()}
-                    >Modifier</Button>
-                  )
-                }
-                &nbsp;
-                <Button color='error' variant='contained' onClick={() => closeModal()}>Annuler</Button>
-              </Typography>
-              {/* </Grid> */}
-            </Grid>
-
-          </Box>
-
-
-        </Modal>
-
-        <Modal
-          isOpen={modalAddIsOpen}
-          // onAfterOpen={afteropenModalAdd}
-          onRequestClose={closeModal}
-          style={customStyles}
-          contentLabel="Example Modal"
-          ariaHideApp={false}
-          appElement={document.getElementById('app')}
-        >
-          {/* <Typography  align='center' variant='h5' >
-                      <p ref={(_subtitle) => (subtitle = _subtitle)}>Ajouter</p>
-                </Typography> */}
-
-          <Box sx={{ flexGrow: 1, m: 2 }}>
-            <Grid container spacing={0}>
-              <Grid item md={12} alignItems='center'>
-                <Item sx={{ borderBottom: '#c8d8c8 1px solid', background: '#fffff8' }} md={4} align='center'>
-                  <Typography variant='h6'>AJOUTER </Typography>
-                </Item>
-              </Grid>
-              {/* <Grid item xs={6}>
-                        <Item sx={{borderBottom:'red 1px solid'}}><Typography variant='h6'>APPRENANTS <SchoolIcon/></Typography></Item>
-                        </Grid> */}
-
-            </Grid>
-          </Box>
-
-          <Box sx={{ flexGrow: 1, m: 2 }}>
-
-            <Grid
-              container
-              sx={{ m: '15px auto', borderRaduis: '20px', background: rgbToHex('#fffff8'), boxShadow: 4 }}
-              spacing={2}
-              // md={12}
-            >
-
-              <Grid item sm={6} >
-
-                <FormControl fullWidth={true} >
-
-                  <TextField
-                    // id="outlined-basic" 
-                    label="Nom"
-                    value={Capitalize(nomAdd)}
-                    onChange={e => { setnomAdd(e.target.value); toInputUppercase(e) }}
-                    variant="outlined" placeholder='Nom'
-                    sx={{ m: 1 }}
-                  />
-
-
-                  <Divider />
-
-
-                  <TextField
-                    // id="outlined-password-input" 
-                    label="Prenom"
-                    value={Capitalize(prenomAdd)}
-                    onChange={e => setprenomAdd(e.target.value)}
-                    variant="outlined" placeholder='Prenom'
-                    sx={{ m: 1 }}
-                  />
-
-
-                  <Divider />
-
-                  <TextField
-                    // id="outlined-basic" 
-                    label="Email"
-                    value={Capitalize(emailAdd)}
-                    onChange={e => setemailAdd(e.target.value)}
-                    variant="outlined" placeholder='@gmail.com'
-                    sx={{ m: 1 }}
-                  />
+                        <TextField 
+                          label="EmailEdit"
+                          value={emailEdit}
+                          onChange={e => setemailEdit(e.target.value)}
+                          variant="outlined" placeholder='@gmail.com'
+                          sx={{ m: 1 }}
+                        />
 
 
 
 
 
-                </FormControl>
+                      </FormControl>
+                      
+                    </Grid>
+                    <Grid item xs={6} sx={{ p: 2 }}>
 
-              </Grid>
+                      <FormControl fullWidth={true} >
 
-              <Grid item xs={6} sx={{ p: 2 }}>
+                        <InputLabel id="demo-simple-select-label-role">Role</InputLabel>
+                        <Select
+                          labelId="demo-simple-select-label-role"
+                          value={roleEdit}
+                          label="RoleEdit"
+                          onChange={e => setroleEdit(e.target.value)}
+                          sx={{ m: 1 }}
+                          placeholder='RoleEdit'
+                        >
+                          <MenuItem value='proffesseur'>Proffesseur</MenuItem>
+                          <MenuItem value='apprenant'>Apprenant</MenuItem>
 
-                <FormControl fullWidth={true} >
+                        </Select>
 
-                  <InputLabel id="demo-simple-select-label-role">Role</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label-role"
-                    // id="demo-simple-select"
-                    value={roleAdd}
-                    label="Role"
-                    onChange={e => setroleAdd(e.target.value)}
-                    sx={{ m: 1 }}
-                    placeholder='Role'
+                        <Divider sx={{background:'#009688'}} variant='middle' />
+
+                        <TextField 
+                          label="PasswordEdit"
+                          type='password'
+                          value='password'
+                          variant="outlined" placeholder='PasswordEdit'
+                          sx={{ m: 1, background:'#c2c2c2' }}
+                          disabled
+                        />
+
+
+                        <Divider sx={{background:'#009688'}} variant='middle' />
+
+
+                        <TextField
+                          label="TelEdit"
+                          value={telEdit}
+                          onChange={e => settelEdit(e.target.value)}
+                          variant="outlined" placeholder='Tel'
+                          sx={{ m: 1 }}
+                        />
+
+
+
+
+
+                      </FormControl>
+                
+                    </Grid>
+
+                    <Divider sx={{background:'#009688'}} variant='middle' />
+            
+                    <Typography align='center' sx={{ m: '0 auto', p: 1 }}>
+                      {
+                        !emailEdit || !prenomEdit || !nomEdit || !roleEdit || !passwordEdit || !telEdit ? (
+                          <Button color='primary' variant='contained' disabled>Modifier</Button>
+                        ) : (
+                          <Button
+                            variant='contained'
+                            color='primary'
+                            onClick={() => userUpdateData()}
+                          >Modifier</Button>
+                        )
+                      }
+                      &nbsp;
+                      <Button color='error' variant='contained' onClick={() => closeModal()}>Annuler</Button>
+                    </Typography>
+                  
+                  </Grid>
+
+                </Box>
+
+
+              </Modal>
+
+              <Modal
+                isOpen={modalAddIsOpen}
+                // onAfterOpen={afteropenModalAdd}
+                onRequestClose={closeModal}
+                style={customStyles}
+                contentLabel="Example Modal"
+                ariaHideApp={false}
+                appElement={document.getElementById('app')}
+              >
+                {/* <Typography  align='center' variant='h5' >
+                            <p ref={(_subtitle) => (subtitle = _subtitle)}>Ajouter</p>
+                      </Typography> */}
+
+                <Box sx={{ flexGrow: 1, m: 2 }}>
+                  <Grid container spacing={0}>
+                    <Grid item md={12} alignItems='center'>
+                      <Item sx={{ borderBottom: '#c8d8c8 1px solid', background: '#fffff8' }} md={4} align='center'>
+                        <Typography variant='h6'>AJOUTER </Typography>
+                      </Item>
+                    </Grid>
+                    
+
+                  </Grid>
+                </Box>
+
+                <Box sx={{ flexGrow: 1, m: 2 }}>
+
+                  <Grid
+                    container
+                    sx={{ m: '15px auto', borderRaduis: '20px', background: rgbToHex('#fffff8'), boxShadow: 4 }}
+                    spacing={2}
                   >
-                    <MenuItem value='proffesseur'>Proffesseur</MenuItem>
-                    <MenuItem value='apprenant'>Apprenant</MenuItem>
 
-                  </Select>
+                    <Grid item sm={6} >
 
-                  <Divider />
+                      <FormControl fullWidth={true} >
 
-                  <TextField
-                    // id="outlined-basic" 
-                    label="Password"
-                    type='password'
-                    value={passwordAdd? passwordAdd: ''}                  
-                    onChange={e => setpasswordAdd(e.target.value)}
-                    variant="outlined" placeholder='PasswordAdd'
-                    sx={{ m: 1 }}
-                    autoComplete="off"
-                  />
+                        <TextField 
+                          label="Nom"
+                          value={Capitalize(nomAdd)}
+                          onChange={e => { setnomAdd(e.target.value); toInputUppercase(e) }}
+                          variant="outlined" placeholder='Nom'
+                          sx={{ m: 1 }}
+                        />
 
 
-                  <Divider />
+                        <Divider sx={{background:'#009688'}} variant='middle' />
 
 
-                  <TextField
-                    // id="outlined-password-input" 
-                    label="Tel"
-                    value={telAdd}
-                    onChange={e => settelAdd(e.target.value)}
-                    variant="outlined" placeholder='Tel'
-                    sx={{ m: 1 }}
-                  />
+                        <TextField
+                          // id="outlined-password-input" 
+                          label="Prenom"
+                          value={Capitalize(prenomAdd)}
+                          onChange={e => setprenomAdd(e.target.value)}
+                          variant="outlined" placeholder='Prenom'
+                          sx={{ m: 1 }}
+                        />
 
 
+                        <Divider sx={{background:'#009688'}} variant='middle' />
 
-
-
-                </FormControl>
-
-              </Grid>
-              <Divider />
-
-              <Typography align='center' sx={{ m: '0 auto', p: 1 }}>
-                {
-                  !emailAdd || !prenomAdd || !nomAdd || !roleAdd || !passwordAdd || !telAdd ? (
-                    <Button color='primary' variant='contained' disabled>Ajouter</Button>
-                  ) : (
-
-                    <Button
-                      variant='contained'
-                      color='primary'
-                      onClick={() => userRegistre()}
-                    >Ajouter</Button>
-                  )
-                }
-                &nbsp;
-                <Button color='error' variant='contained' onClick={() => closeModal()}>Annuler</Button>
-              </Typography>
-
-            </Grid>
-
-
-          </Box>
-
-
-
-        </Modal>
-
-        {
-          role ==='admin' &&
-          <Typography >
-            <IconButton
-              variant="text"
-              onClick={() => openModalAdd()}
-              title='Ajouter'
-            >
-              <PersonAdd sx={{ color: '#009688' }} />
-            </IconButton>
-          {/* <IconButton 
-                    variant="text" 
-                    onClick={()=>window.location.reload()} 
-                    title='Actualiser'
-                    color='primary'
-                    >
-                    <RefreshOutlined />
-                </IconButton>    */}
-
-        </Typography>
-        }
-
-      </div>
-      ):(
-        <div
-        style={{ height: 430, maxWidth: '100%', boxShadow: 8, background:'#fff' }}
-        sx={{
-          height: 400,
-          width: 1,
-          '& .MuiDataGrid-cell--editable': {
-            bgcolor: (theme) =>
-              theme.palette.mode === 'dark' ? '#376331' : 'rgb(217 243 190)',
-          },
-        }}
-        id='main'
-      >
-
-
-        <DataGrid
-          columns={columns}
-
-          rows={userget}
-          onSelectionModelChange={(ids) => {
-            const selectedIDs = new Set(ids);
-            const selectedRows = userget.filter((row) =>
-              selectedIDs.has(row.id)
-            );
-            setRowSelected(selectedRows)
-          }}
-          // hideFooterPagination 
-          components={{
-            NoRowsOverlay: () => (
-              <Stack height="100%" alignItems="center" justifyContent="center">
-                <Typography variant='h4' color='HighlightText'>Aucune donnée </Typography>
-              </Stack>
-            ),
-            NoResultsOverlay: () => (
-              <Stack height="100%" alignItems="center" justifyContent="center">
-                Local filter returns no result
-              </Stack>
-            ),
-
-          }}
-
-
-
-          sx={{ paddingBottom: 0, borderBottom: '1px #009688 solid' }}
-          autoPageSize
-          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-          rowsPerPageOptions={[5, 10, 20]}
-          pagination
-          {...userget}
-          loading={loading}
-        />
-
-
-
-
-        <Modal
-          isOpen={modalEditIsOpen}
-          // onAfterOpen={afteropenModalEdit}
-          onRequestClose={closeModal}
-          style={customStyles}
-          contentLabel="Example Modal"
-          ariaHideApp={false}
-          appElement={document.getElementById('app')}
-        >
-
-          <Box sx={{ flexGrow: 1, m: 2 }}>
-            <Grid container spacing={0}>
-              <Grid item md={12} alignItems='center'>
-                <Item sx={{ borderBottom: '#c8d8c8 1px solid', background: '#fffff8' }} md={4} align='center'>
-                  <Typography variant='h6'>MODIFIER </Typography>
-                </Item>
-              </Grid>
-              {/* <Grid item xs={6}>
-                        <Item sx={{borderBottom:'red 1px solid'}}><Typography variant='h6'>APPRENANTS <SchoolIcon/></Typography></Item>
-                        </Grid> */}
-
-            </Grid>
-          </Box>
-
-          <Box sx={{ flexGrow: 1, m: 2 }}>
-
-            <Grid container
-              sx={{
-                m: '15px auto',
-                borderRaduis: '20px',
-                background: rgbToHex('#fffff8'),
-                boxShadow: 4
-              }}
-              spacing={2}
-              md={12}
-            >
-              <Grid item sm={6} >
-
-                <FormControl fullWidth={true} >
-
-                  <TextField
-                    // id="outlined-basic" 
-                    label="NomEdit"
-                    value={nomEdit}
-                    onChange={e => setnomEdit(e.target.value)}
-                    variant="outlined" placeholder='Nom'
-                    sx={{ m: 1 }}
-                  />
-
-
-                  <Divider />
-
-
-                  <TextField
-                    // id="outlined-password-input" 
-                    label="PrenomEdit"
-                    value={prenomEdit}
-                    onChange={e => setprenomEdit(e.target.value)}
-                    variant="outlined" placeholder='Prenom'
-                    sx={{ m: 1 }}
-                  />
-
-
-                  <Divider />
-
-                  <TextField
-                    // id="outlined-basic" 
-                    label="EmailEdit"
-                    value={emailEdit}
-                    onChange={e => setemailEdit(e.target.value)}
-                    variant="outlined" placeholder='@gmail.com'
-                    sx={{ m: 1 }}
-                  />
+                        <TextField
+                          // id="outlined-basic" 
+                          label="Email"
+                          value={Capitalize(emailAdd)}
+                          onChange={e => setemailAdd(e.target.value)}
+                          variant="outlined" placeholder='@gmail.com'
+                          sx={{ m: 1 }}
+                        />
 
 
 
 
 
-                </FormControl>
-                {/* </Typography> */}
-              </Grid>
-              <Grid item xs={6} sx={{ p: 2 }}>
+                      </FormControl>
 
-                <FormControl fullWidth={true} >
+                    </Grid>
 
-                  <InputLabel id="demo-simple-select-label-role">Role</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label-role"
-                    // id="demo-simple-select"
-                    value={roleEdit}
-                    label="RoleEdit"
-                    onChange={e => setroleEdit(e.target.value)}
-                    sx={{ m: 1 }}
-                    placeholder='RoleEdit'
+                    <Grid item xs={6} sx={{ p: 2 }}>
+
+                      <FormControl fullWidth={true} >
+
+                        <InputLabel id="demo-simple-select-label-role">Role</InputLabel>
+                        <Select
+                          labelId="demo-simple-select-label-role"
+                          value={roleAdd}
+                          label="Role"
+                          onChange={e => setroleAdd(e.target.value)}
+                          sx={{ m: 1 }}
+                          placeholder='Role'
+                        >
+                          <MenuItem value='proffesseur'>Proffesseur</MenuItem>
+                          <MenuItem value='apprenant'>Apprenant</MenuItem>
+
+                        </Select>
+
+                        <Divider sx={{background:'#009688'}} variant='middle' />
+
+                        <TextField 
+                          label="Password"
+                          type='password'
+                          value={passwordAdd? passwordAdd: ''}                  
+                          onChange={e => setpasswordAdd(e.target.value)}
+                          variant="outlined" placeholder='PasswordAdd'
+                          sx={{ m: 1 }}
+                          autoComplete="off"
+                        />
+
+
+                        <Divider sx={{background:'#009688'}} variant='middle'/>
+
+
+                        <TextField 
+                          label="Tel"
+                          value={telAdd}
+                          onChange={e => settelAdd(e.target.value)}
+                          variant="outlined" placeholder='Tel'
+                          sx={{ m: 1 }}
+                        />
+
+
+
+
+
+                      </FormControl>
+
+                    </Grid>
+                    <Divider sx={{background:'#009688'}} variant='middle'/>
+
+                    <Typography align='center' sx={{ m: '0 auto', p: 1 }}>
+                      {
+                        !emailAdd || !prenomAdd || !nomAdd || !roleAdd || !passwordAdd || !telAdd ? (
+                          <Button color='primary' variant='contained' disabled>Ajouter</Button>
+                        ) : (
+
+                          <Button
+                            variant='contained'
+                            color='primary'
+                            onClick={() => userRegistre()}
+                          >Ajouter</Button>
+                        )
+                      }
+                      &nbsp;
+                      <Button color='error' variant='contained' onClick={() => closeModal()}>Annuler</Button>
+                    </Typography>
+
+                  </Grid>
+
+
+                </Box>
+
+
+
+              </Modal>
+
+              {
+                role ==='admin' &&
+                <Typography >
+                  <IconButton
+                    variant="text"
+                    onClick={() => openModalAdd()}
+                    title='Ajouter'
                   >
-                    <MenuItem value='proffesseur'>Proffesseur</MenuItem>
-                    <MenuItem value='apprenant'>Apprenant</MenuItem>
+                    <PersonAdd sx={{ color: '#009688' }} />
+                  </IconButton>
+                {/* <IconButton 
+                          variant="text" 
+                          onClick={()=>window.location.reload()} 
+                          title='Actualiser'
+                          color='primary'
+                          >
+                          <RefreshOutlined />
+                      </IconButton>    */}
 
-                  </Select>
-
-                  <Divider />
-
-                  <TextField
-                    // id="outlined-basic" 
-                    label="PasswordEdit"
-                    type='password'
-                    // value={passwordEdit} 
-                    // onChange={e=>{setpasswordEdit(e.target.value)}}
-                    variant="outlined" placeholder='PasswordEdit'
-                    sx={{ m: 1 }}
-                    disabled
-                  />
-
-
-                  <Divider />
-
-
-                  <TextField
-                    // id="outlined-password-input" 
-                    label="TelEdit"
-                    value={telEdit}
-                    onChange={e => settelEdit(e.target.value)}
-                    variant="outlined" placeholder='Tel'
-                    sx={{ m: 1 }}
-                  />
+                </Typography>
+              }
 
 
 
+          </div>
+              <ToastContainer
+                position="top-right"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+              />
+        </>
+        ):(
+        <>
+          <div
+            style={{ height: 330, maxWidth: '100%', boxShadow: 8, background:'#fff' }}
+            sx={{
+              // height: 300,
+              width: 1,
+              '& .MuiDataGrid-cell--editable': {
+                bgcolor: (theme) =>
+                  theme.palette.mode === 'dark' ? '#376331' : 'rgb(217 243 190)',
+              },
+            }}
+            id='main'
+          >
 
 
-                </FormControl>
-                {/* </Typography> */}
-              </Grid>
-              <Divider />
-              {/* <Grid item a> */}
-              <Typography align='center' sx={{ m: '0 auto', p: 1 }}>
-                {
-                  !emailEdit || !prenomEdit || !nomEdit || !roleEdit || !passwordEdit || !telEdit ? (
-                    <Button color='primary' variant='contained' disabled>Modifier</Button>
-                  ) : (
-                    <Button
-                      variant='contained'
-                      color='primary'
-                      onClick={() => userUpdateData()}
-                    >Modifier</Button>
-                  )
-                }
-                &nbsp;
-                <Button color='error' variant='contained' onClick={() => closeModal()}>Annuler</Button>
-              </Typography>
-              {/* </Grid> */}
-            </Grid>
+              <DataGrid
+                columns={columns}
 
-          </Box>
+                rows={userget}
+                onSelectionModelChange={(ids) => {
+                  const selectedIDs = new Set(ids);
+                  const selectedRows = userget.filter((row) =>
+                    selectedIDs.has(row.id)
+                  );
+                  setRowSelected(selectedRows)
+                }}
+                // hideFooterPagination 
+                components={{
+                  NoRowsOverlay: () => (
+                    <Stack height="100%" alignItems="center" justifyContent="center">
+                      <Typography variant='h4' color='HighlightText'>Aucune donnée </Typography>
+                    </Stack>
+                  ),
+                  NoResultsOverlay: () => (
+                    <Stack height="100%" alignItems="center" justifyContent="center">
+                      Local filter returns no result
+                    </Stack>
+                  ),
 
-
-        </Modal>
-
-        <Modal
-          isOpen={modalAddIsOpen}
-          // onAfterOpen={afteropenModalAdd}
-          onRequestClose={closeModal}
-          style={customStyles}
-          contentLabel="Example Modal"
-          ariaHideApp={false}
-          appElement={document.getElementById('app')}
-        >
-          {/* <Typography  align='center' variant='h5' >
-                      <p ref={(_subtitle) => (subtitle = _subtitle)}>Ajouter</p>
-                </Typography> */}
-
-          <Box sx={{ flexGrow: 1, m: 2 }}>
-            <Grid container spacing={0}>
-              <Grid item md={12} alignItems='center'>
-                <Item sx={{ borderBottom: '#c8d8c8 1px solid', background: '#fffff8' }} md={4} align='center'>
-                  <Typography variant='h6'>AJOUTER </Typography>
-                </Item>
-              </Grid>
-              {/* <Grid item xs={6}>
-                        <Item sx={{borderBottom:'red 1px solid'}}><Typography variant='h6'>APPRENANTS <SchoolIcon/></Typography></Item>
-                        </Grid> */}
-
-            </Grid>
-          </Box>
-
-          <Box sx={{ flexGrow: 1, m: 2 }}>
-
-            <Grid
-              container
-              sx={{ m: '15px auto', borderRaduis: '20px', background: rgbToHex('#fffff8'), boxShadow: 4 }}
-              spacing={2}
-              // md={12}
-            >
-
-              <Grid item sm={6} >
-
-                <FormControl fullWidth={true} >
-
-                  <TextField
-                    // id="outlined-basic" 
-                    label="Nom"
-                    value={Capitalize(nomAdd)}
-                    onChange={e => { setnomAdd(e.target.value); toInputUppercase(e) }}
-                    variant="outlined" placeholder='Nom'
-                    sx={{ m: 1 }}
-                  />
+                }}
 
 
-                  <Divider />
 
-
-                  <TextField
-                    // id="outlined-password-input" 
-                    label="Prenom"
-                    value={Capitalize(prenomAdd)}
-                    onChange={e => setprenomAdd(e.target.value)}
-                    variant="outlined" placeholder='Prenom'
-                    sx={{ m: 1 }}
-                  />
-
-
-                  <Divider />
-
-                  <TextField
-                    // id="outlined-basic" 
-                    label="Email"
-                    value={Capitalize(emailAdd)}
-                    onChange={e => setemailAdd(e.target.value)}
-                    variant="outlined" placeholder='@gmail.com'
-                    sx={{ m: 1 }}
-                  />
+                sx={{ paddingBottom: 0, borderBottom: '1px #009688 solid' }}
+                autoPageSize
+                onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+                rowsPerPageOptions={[5, 10, 20]}
+                pagination
+                {...userget}
+                loading={loading}
+              />
 
 
 
 
+              <Modal
+                isOpen={modalEditIsOpen}
+                onRequestClose={closeModal}
+                style={customStylesMobile}
+                contentLabel="Example Modal"
+                ariaHideApp={false}
+                appElement={document.getElementById('app')}
+              >
 
-                </FormControl>
+                      <Box sx={{ flexGrow: 1 , m:2}}>
+                          <Grid container spacing={0}>
 
-              </Grid>
+                              <Grid item md={12} alignItems='center'>
+                                  <Item sx={{borderBottom:'#c8d8c8 1px solid', background:'#fffff8'}} md={4} align='center'>
+                                      <Typography variant='h6'>MODIFIER </Typography>
+                                  </Item>
+                              </Grid>                     
+                              
+                          </Grid>
+                      </Box>
+              
 
-              <Grid item xs={6} sx={{ p: 2 }}>
-
-                <FormControl fullWidth={true} >
-
-                  <InputLabel id="demo-simple-select-label-role">Role</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label-role"
-                    // id="demo-simple-select"
-                    value={roleAdd}
-                    label="Role"
-                    onChange={e => setroleAdd(e.target.value)}
-                    sx={{ m: 1 }}
-                    placeholder='Role'
+                  <Grid 
+                    container
+                    sx={{ m: '0 auto', borderRaduis: '20px', background:'#fff', boxShadow: 4 }}
+                    spacing={0}
+                    md={12}
                   >
-                    <MenuItem value='proffesseur'>Proffesseur</MenuItem>
-                    <MenuItem value='apprenant'>Apprenant</MenuItem>
+                    <Grid item sm={12} sx={{ m:'30px 40px', boxShadow:5}}>
 
-                  </Select>
+                      <FormControl fullWidth={true} >
 
-                  <Divider />
-
-                  <TextField
-                    // id="outlined-basic" 
-                    label="Password"
-                    type='password'
-                    value={passwordAdd? passwordAdd: ''}                  
-                    onChange={e => setpasswordAdd(e.target.value)}
-                    variant="outlined" placeholder='PasswordAdd'
-                    sx={{ m: 1 }}
-                    autoComplete="off"
-                  />
+                        <TextField 
+                          label="NomEdit"
+                          value={nomEdit}
+                          onChange={e => setnomEdit(e.target.value)}
+                          variant="outlined" placeholder='Nom'
+                          sx={{mr: 1, p:1 }}
+                        />
 
 
-                  <Divider />
+                        <Divider sx={{background:'#009688', marginBottom:2}} variant='middle' />
 
 
-                  <TextField
-                    // id="outlined-password-input" 
-                    label="Tel"
-                    value={telAdd}
-                    onChange={e => settelAdd(e.target.value)}
-                    variant="outlined" placeholder='Tel'
-                    sx={{ m: 1 }}
-                  />
+                        <TextField
+                          // id="outlined-password-input" 
+                          label="PrenomEdit"
+                          value={prenomEdit}
+                          onChange={e => setprenomEdit(e.target.value)}
+                          variant="outlined" placeholder='Prenom'
+                          sx={{ mr: 1, p:1 }}
+                        />
 
 
+                        <Divider sx={{background:'#009688', marginBottom:2}} variant='middle' />
 
-
-
-                </FormControl>
-
-              </Grid>
-              <Divider />
-
-              <Typography align='center' sx={{ m: '0 auto', p: 1 }}>
-                {
-                  !emailAdd || !prenomAdd || !nomAdd || !roleAdd || !passwordAdd || !telAdd ? (
-                    <Button color='primary' variant='contained' disabled>Ajouter</Button>
-                  ) : (
-
-                    <Button
-                      variant='contained'
-                      color='primary'
-                      onClick={() => userRegistre()}
-                    >Ajouter</Button>
-                  )
-                }
-                &nbsp;
-                <Button color='error' variant='contained' onClick={() => closeModal()}>Annuler</Button>
-              </Typography>
-
-            </Grid>
-
-
-          </Box>
+                        <TextField
+                          // id="outlined-basic" 
+                          label="EmailEdit"
+                          value={emailEdit}
+                          onChange={e => setemailEdit(e.target.value)}
+                          variant="outlined" placeholder='@gmail.com'
+                          sx={{mr: 1, p:1}}
+                        />
 
 
 
-        </Modal>
 
-        {
-          role ==='admin' &&
-          <Typography >
-            <IconButton
-              variant="text"
-              onClick={() => openModalAdd()}
-              title='Ajouter'
-            >
-              <PersonAdd sx={{ color: '#009688' }} />
-            </IconButton>
-          {/* <IconButton 
-                    variant="text" 
-                    onClick={()=>window.location.reload()} 
-                    title='Actualiser'
-                    color='primary'
-                    >
-                    <RefreshOutlined />
-                </IconButton>    */}
 
-        </Typography>
-        }
+                      </FormControl>
+                      <Divider sx={{background:'#009688', marginBottom:2}} variant='middle' />
+                      <FormControl fullWidth={true} >
 
-      </div>
+                        <InputLabel id="demo-simple-select-label-role">Role</InputLabel>
+                        <Select
+                          labelId="demo-simple-select-label-role"
+                          // id="demo-simple-select"
+                          value={roleEdit}
+                          label="RoleEdit"
+                          onChange={e => setroleEdit(e.target.value)}
+                          sx={{ m: 1, width:207 }}
+                          placeholder='RoleEdit'
+                        >
+                          <MenuItem value='proffesseur'>Proffesseur</MenuItem>
+                          <MenuItem value='apprenant'>Apprenant</MenuItem>
+
+                        </Select>
+
+                        <Divider sx={{background:'#009688', marginBottom:2}} variant='middle' />
+
+                        {/* <TextField
+                          // id="outlined-basic" 
+                          label="PasswordEdit"
+                          type='password'
+                          // value={passwordEdit} 
+                          // onChange={e=>{setpasswordEdit(e.target.value)}}
+                          variant="outlined" placeholder='PasswordEdit'
+                          sx={{ m: 1 }}
+                          disabled
+                        />
+
+
+                        <Divider /> */}
+
+
+                        <TextField
+                          label="TelEdit"
+                          value={telEdit}
+                          onChange={e => settelEdit(e.target.value)}
+                          variant="outlined" placeholder='Tel'
+                          sx={{ mr: 1, p:1 }}
+                        />
+
+
+
+                        <Divider sx={{background:'#009688', marginBottom:2}} variant='middle' />
+
+                      </FormControl>
+
+                    </Grid>
+
+                  
+                    <Divider sx={{background:'#009688'}} variant='middle' />
+                  
+                    <Typography align='center'  sx={{ m: '15px', p: 1, d:'flex', mt:5}}>
+                      {
+                        !emailEdit || !prenomEdit || !nomEdit || !roleEdit || !passwordEdit || !telEdit ? (
+                          <Button color='primary' variant='contained' disabled>Modifier</Button>
+                        ) : (
+                          <Button
+                            variant='contained'
+                            color='primary'
+                            onClick={() => userUpdateData()}
+                          >Modifier</Button>
+                        )
+                      }
+                      &nbsp;
+                      <Button color='error' variant='contained' onClick={() => closeModal()}>Annuler</Button>
+                    </Typography>
+                
+                  </Grid>
+
+              
+
+
+              </Modal>
+
+              <Modal
+                isOpen={modalAddIsOpen}
+                onRequestClose={closeModal}
+                style={customStylesMobile}
+                contentLabel="Example Modal"
+                ariaHideApp={false}
+                appElement={document.getElementById('app')}
+                
+              >
+
+                      <Box sx={{ flexGrow: 1 , m:2}}>
+                          <Grid container spacing={0}>
+
+                              <Grid item md={12} alignItems='center'>
+                                  <Item sx={{borderBottom:'#c8d8c8 1px solid', background:'#fffff8'}} md={4} align='center'>
+                                      <Typography variant='h6'>AJOUTER </Typography>
+                                  </Item>
+                              </Grid>                     
+                              
+                          </Grid>
+                      </Box>
+          
+
+                  <Grid
+                    container
+                    sx={{ m: '0 auto', borderRaduis: '20px', background:'#fff', boxShadow: 4 }}
+                    spacing={0}
+                    md={12}
+                    
+                  >
+
+                    <Grid item sm={12} sx={{ m:'30px 30px', boxShadow:5}}>
+
+                      <FormControl fullWidth={true} >
+
+                        <TextField
+                      
+                          label="Nom"
+                          value={Capitalize(nomAdd)}
+                          onChange={e => { setnomAdd(e.target.value); toInputUppercase(e) }}
+                          variant="outlined" placeholder='Nom'
+                          sx={{ mr: 1, p:1 }}
+                        />
+
+
+                        <Divider sx={{background:'#009688', marginBottom:2}} variant='middle' />
+
+
+                        <TextField
+                          
+                          label="Prenom"
+                          value={Capitalize(prenomAdd)}
+                          onChange={e => setprenomAdd(e.target.value)}
+                          variant="outlined" placeholder='Prenom'
+                          sx={{ mr: 1, p:1 }}
+                        />
+
+
+                        <Divider sx={{background:'#009688', marginBottom:2}} variant='middle' />
+
+                        <TextField
+                          
+                          label="Email"
+                          value={Capitalize(emailAdd)}
+                          onChange={e => setemailAdd(e.target.value)}
+                          variant="outlined" placeholder='@gmail.com'
+                          sx={{ mr: 1, p:1 }}
+                        />
+
+
+
+
+
+                      </FormControl>
+                      <Divider sx={{background:'#009688', marginBottom:2}} variant='middle' />
+                      <FormControl fullWidth={true} >
+
+                          <InputLabel id="demo-simple-select-label-role">Role</InputLabel>
+                          <Select
+                            labelId="demo-simple-select-label-role"
+
+                            value={roleAdd}
+                            label="Role"
+                            onChange={e => setroleAdd(e.target.value)}
+                            sx={{ m: 1, width:228 }}
+                            placeholder='Role'
+                          >
+                            <MenuItem value='proffesseur'>Proffesseur</MenuItem>
+                            <MenuItem value='apprenant'>Apprenant</MenuItem>
+
+                          </Select>
+
+                          <Divider sx={{background:'#009688', marginBottom:2}} variant='middle' />
+
+                          <TextField
+                            
+                            label="Password"
+                            type='password'
+                            value={passwordAdd? passwordAdd: ''}                  
+                            onChange={e => setpasswordAdd(e.target.value)}
+                            variant="outlined" placeholder='PasswordAdd'
+                            sx={{ mr: 1, p:1}}
+                            autoComplete="off"
+                          />
+
+
+                          <Divider sx={{background:'#009688', marginBottom:2}} variant='middle' />
+
+
+                          <TextField
+                          
+                            label="Tel"
+                            value={telAdd}
+                            onChange={e => settelAdd(e.target.value)}
+                            variant="outlined" placeholder='Tel'
+                            sx={{ mr: 1, p:1 }}
+                          />
+
+
+                          <Divider sx={{background:'#009688', marginBottom:2}} variant='middle' />      
+
+
+                      </FormControl>
+
+                    </Grid>
+
+                    
+                    
+                    <Divider sx={{background:'#009688'}} variant='middle' />
+
+                    <Typography align='center'  sx={{ m: '15px', p: 1, d:'flex'}}>
+                      {
+                        !emailAdd || !prenomAdd || !nomAdd || !roleAdd || !passwordAdd || !telAdd ? (
+                          <Button color='primary' variant='contained' disabled>Ajouter</Button>
+                        ) : (
+
+                          <Button
+                            variant='contained'
+                            color='primary'
+                            onClick={() => userRegistre()}
+                          >Ajouter</Button>
+                        )
+                      }
+                      &nbsp;
+                      <Button color='error' variant='contained' onClick={() => closeModal()}>Annuler</Button>
+                    </Typography>
+
+                  </Grid>
+
+              </Modal>
+
+              {
+                role ==='admin' &&
+                <Typography >
+                  <IconButton
+                    variant="text"
+                    onClick={() => openModalAdd()}
+                    title='Ajouter'
+                  >
+                    <PersonAdd sx={{ color: '#009688' }} />
+                  </IconButton>
+                {/* <IconButton 
+                          variant="text" 
+                          onClick={()=>window.location.reload()} 
+                          title='Actualiser'
+                          color='primary'
+                          >
+                          <RefreshOutlined />
+                      </IconButton>    */}
+
+                </Typography>
+              }
+
+          </div>
+         
+        </>
       )}
-      
+          
 
 
-      <ArchiveDialog />
-      <DisableDialog />
-      <EditDialog />
+          <ArchiveDialog />
+          <DisableDialog />
+          <EditDialog />
+          
 
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-      {/* Same as */}
-      <ToastContainer />
 
+          
     </>
 
   );

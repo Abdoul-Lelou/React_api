@@ -13,7 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
-import { Chip, Grid, Paper, styled } from '@mui/material';
+import { Chip, Grid, Paper, styled, useMediaQuery } from '@mui/material';
 import { Box } from '@mui/system';
 import moment from 'moment'
 
@@ -27,6 +27,7 @@ function DetailPanelUser({detail, cours,text}) {
   const [open, setOpen] = React.useState(false);
   const [urlImg, seturlImg] =  React.useState('');
   const [signedCour, setsignedCour] =  React.useState('')
+  const matches = useMediaQuery('(min-width:900px)');
  
 
   const handleClickOpen = () => {
@@ -293,57 +294,111 @@ function DetailPanelUser({detail, cours,text}) {
             >
               <CloseIcon />
             </IconButton>
-            <Typography sx={{ ml: 8, flex: 1 }} variant="h6" component="div" align='center'>
-              DÉTAIL
+            
+            {
+              matches?(
+                <Typography sx={{ ml: 8, flex: 1 }} variant="h6" component="div" align='center'>
+                  {detail && detail.map((data)=>{
+                        return(
+                          <>
+                            {data.role ==='proffesseur'?(
+                              <>PROFESSEUR</>
+                            ):(
+                            <>APPRENANT</>
+                            )}
+                          </>
+                        )
+                  })}
             </Typography>
+              ):(
+                <Typography sx={{ flex: 1, mr:4 }} variant="h6" component="div" align='center'>
+                  {detail && detail.map((data)=>{
+                        return(
+                          <>
+                            {data.role ==='proffesseur'?(
+                              <>PROFESSEUR</>
+                            ):(
+                            <>APPRENANT</>
+                            )}
+                          </>
+                        )
+                  })}
+            </Typography>
+              )
+            }
+            
           
           </Toolbar>
         </AppBar>
             
-          <Grid container sx={{m:'15px auto', boxShadow:2, background:'#c8d8c8'}} spacing={2} md={8}>
+          {
+            matches?(
+              <Grid container sx={{m:'15px auto', boxShadow:2, background:'#c8d8c8'}} spacing={2} md={8}>
               
-              <Box sx={{ flexGrow: 1 , m:2}}>
+                  <Box sx={{ flexGrow: 1 , m:2}}>
 
-                  <Grid container spacing={1} >
+                      <Grid container spacing={1} >
 
-                      <Grid item md={12} alignItems='center'>
-                          <Item sx={{borderBottom:'#c8d8c8 1px solid'}} md={4} align='center'>
-                              <Typography variant='h6'>
-                              {detail && detail.map((data)=>{
-                                return(
-                                  <>
-                                   {data.role ==='proffesseur'?(
-                                     <>PROFFESSEUR</>
-                                   ):(
-                                    <>APPRENANT</>
-                                   )}
-                                  </>
-                                )
-                              })}
-                              </Typography>
-                          </Item>
-                      </Grid>       
+                          <Grid item md={12} alignItems='center'>
+                              <Item sx={{borderBottom:'#c8d8c8 1px solid'}} md={4} align='center'>
+                                  <Typography variant='h6'>
+                                  {detail && detail.map((data)=>{
+                                    return(
+                                      <>
+                                      {data.role ==='proffesseur'?(
+                                        <>PROFFESSEUR</>
+                                      ):(
+                                        <>APPRENANT</>
+                                      )}
+                                      </>
+                                    )
+                                  })}
+                                  </Typography>
+                              </Item>
+                          </Grid>       
 
-                      <Grid item md={4} mt={2} alignItems='center'>
-                          <Grid sx={{borderBottom:'#c8d8c8 1px solid',background:'#fff'}} md={12} >
-                                {ListInfoCour()}
+                          <Grid item md={4} mt={2} alignItems='center'>
+                              <Grid sx={{borderBottom:'#c8d8c8 1px solid',background:'#fff'}} md={12} >
+                                    {ListInfoCour()}
+                              </Grid>
                           </Grid>
+
+                          <Grid item md={8} mt={2} alignItems='center'>
+                              <Grid sx={{borderBottom:'#c8d8c8 1px solid',background:'#fff'}} md={12} >
+                                    {ListInfo()}
+                              </Grid>
+                          </Grid>                      
+                          
                       </Grid>
 
-                      <Grid item md={8} mt={2} alignItems='center'>
-                          <Grid sx={{borderBottom:'#c8d8c8 1px solid',background:'#fff'}} md={12} >
-                                {ListInfo()}
-                          </Grid>
-                      </Grid>                      
-                      
-                  </Grid>
+                  </Box>
 
-              </Box>
-
-          </Grid>
+              </Grid>
+            ):(
+              <>
+              <Grid container sx={{ boxShadow:2, background:'#c8d8c8', height:'100%'}} spacing={0} md={12}>
+              
+                <Box sx={{ width:'40vh', height:'83vh', m:'0 auto', boxShadow:4,  background:"#fff", zIndex:100}}>
+                  &nbsp;
+                  {ListInfoCour()}
+                      <Grid sx={{width:'100%', p:'20px', }} >
+                          <Divider variant='middle' sx={{background:'#009688'}}  />
+                      </Grid>
+                  {ListInfo()}
+                </Box>
+              </Grid>
+              </>
+            )
+          }
 
       </Dialog>
     </div>
   );
 }
 export default DetailPanelUser
+
+{/* <Box sx={{  border:'solid 1px red', width:'40vh', m:'0 auto'}}>
+{ListInfoCour()}
+
+{ListInfo()}
+</Box> */}

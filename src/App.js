@@ -16,9 +16,12 @@ import moment from 'moment';
 
 
 
+
 const App=()=> {
 
+
   const [userLogin, setuserLogin] = useState('')
+  const [id, setId] = useState('')
   const [img, setImg] = useState('')
   const [first_name, setFirst_name] = useState('')
   const [last_name, setLast_name] = useState('')
@@ -34,7 +37,6 @@ const App=()=> {
   useEffect(() => {
 
     getCours();
-    console.log(courOutDate)
     convertDate()
     return fetch("http://localhost:8000/api/user_login", {
     
@@ -48,11 +50,12 @@ const App=()=> {
     }).then((res) => res.json())
       .then((res) => {
         if(res.status ==='success') {
+          setId(res.data.id) 
           setuserLogin(res.data) 
           setImg(res.data.image)  
           setFirst_name(res.data.first_name)
           setLast_name(res.data.last_name)
-          setrole(res.data.role) 
+          setrole(res.data.role)
           localStorage.setItem('roleLogin', res.data.role)   
         }
       })
@@ -64,9 +67,9 @@ const App=()=> {
 
 
   const convertDate=()=>{
-    courOutDate && courOutDate.map((data)=>{
+     courOutDate && courOutDate.map((data)=>{
         if(moment(data.date_cour).isBefore(today)){
-          updateCour(data.id)
+          return updateCour(data.id)
         }
     })
   }
@@ -107,28 +110,24 @@ const App=()=> {
       })
         
   }).then((res) => res.json())
-    .then((res) => {
-        console.log(res);
-        // setOpenDisable(false)
-        // setDisabled(disabled ? false : true)
-        // window.location.reload()
-    })
-    
+    .then()    
   }
 
+  
+
   return (
-    <div style={{background:'#c8d8c8', position:'initial',  height: '100vh',minHeight : '100vh',}}>
+    <div className='bg' style={{position:'initial',  height: '100vh',minHeight : '100vh', }}>
         {!defaultRoute && currentUrl !== 'login'  &&  <SearchAppBar img={img} name={first_name} role={role} sx={{mb:4}}/>}
             <CssBaseline />
             <Container disableGutters maxWidth='xl' sx={{ pb:0}}>         
               <Routes>
-
+            
                   <Route path="/" element={<Login />} />
                     {/* <Route index element={<Login />} />
                     <Route path='/login'  exact element={<Login  />}/>
                     <Route  element={<About />} /> */}
                   {/* </Route> */}
-                  <Route path="/home" exact element={<Home img={img} first_name={first_name} last_name={last_name} role={role} />} />  
+                  <Route path="/home" exact element={<Home id={id} img={img} first_name={first_name} last_name={last_name} role={role} />} />  
                     {/* <Route path="home" element={<Home img={img} first_name={first_name} last_name={last_name}/>}/>
                   </Route> */}
                   <Route path="/user" exact element={<User />} />  
@@ -148,7 +147,8 @@ const App=()=> {
 
               </Routes>  
             </Container>
-                
+
+            
     </div>
   );
 }

@@ -1,1 +1,5 @@
 ::-webkit-scrollbar {display:none;}
+
+.modal_mobile{
+    background: url('../../../public/back.png');
+}

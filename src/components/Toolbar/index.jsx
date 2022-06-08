@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { styled, alpha, useStyle } from '@mui/material/styles';
+import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -9,25 +9,19 @@ import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
 import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import PersonOffIcon from '@mui/icons-material/PersonOff';    
 import CommentBankIcon from '@mui/icons-material/CommentBank';       
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import brand from '../../images/brand.png';
 import './index.css'
-import { AiOutlineReload } from '@mui/icons-material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import GroupIcon from '@mui/icons-material/Group';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
-import ArchiveIcon from '@mui/icons-material/Archive';
 import { makeStyles } from '@mui/styles';
-import { Avatar, ListItemButton } from '@mui/material';
+import { ListItemButton } from '@mui/material';
 import BadgeAvatars from './avatar';
 
 const Search = styled('div')(({ theme }) => ({
@@ -90,7 +84,6 @@ export default function SearchAppBar({img, name, role}) {
         // bottom: false,
         // right: false,
       });
-      const [currentRoute, setCurrentRoute] = React.useState('')
       const [selectedIndex, setSelectedIndex] = React.useState(1);
 
       const classes= useStyles();
@@ -119,19 +112,13 @@ export default function SearchAppBar({img, name, role}) {
           onKeyDown={toggleDrawer(anchor, false)}
          
         >
-          {/* <Divider color='#009688'/> */}
-          {/* <Divider
-              
-              variant="middle"
-          >   </Divider> */}
+          
           <List>
-            {/* {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => ( */}
               <ListItemButton   
-                selected={selectedIndex === 0}
-                onClick={(event) => {handleListItemClick(event, 0); navigate('home')}}
+                selected={selectedIndex === 1}
+                onClick={(event) => {handleListItemClick(event, 1); navigate('home')}}
               >
                 <ListItemIcon>
-                  {/* {index % 2 === 0 ? <InboxIcon /> :  */}
                   <DashboardIcon />
                 </ListItemIcon>
                 Dashboard
@@ -145,8 +132,8 @@ export default function SearchAppBar({img, name, role}) {
             <List>
               <ListItemButton  
                   
-                  selected={selectedIndex === 1}
-                  onClick={(event) => {handleListItemClick(event, 1); navigate('user')}}
+                  selected={selectedIndex === 2}
+                  onClick={(event) => {handleListItemClick(event, 2); navigate('user')}}
               >
                     <ListItemIcon>
                   
@@ -160,8 +147,8 @@ export default function SearchAppBar({img, name, role}) {
           <Divider />
           <List style={{marginBottom:'auto'}}>
               <ListItemButton 
-                 selected={selectedIndex === 2}
-                 onClick={(event) => {handleListItemClick(event, 2); navigate('cour')}}
+                 selected={selectedIndex === 3}
+                 onClick={(event) => {handleListItemClick(event, 3); navigate('cour')}}
               >
                 <ListItemIcon>            
                   <AutoStoriesIcon />
@@ -177,8 +164,8 @@ export default function SearchAppBar({img, name, role}) {
                  <List style={{marginBottom:'auto'}}>
                     <ListItemButton  
                       
-                      selected={selectedIndex === 3}
-                      onClick={(event) => {handleListItemClick(event, 3); navigate('archive_users')}}
+                      selected={selectedIndex === 4}
+                      onClick={(event) => {handleListItemClick(event, 4); navigate('archive_users')}}
                     >
                       <ListItemIcon>      
                         <PersonOffIcon />
@@ -193,8 +180,8 @@ export default function SearchAppBar({img, name, role}) {
           }
           <List style={{marginBottom:'auto'}}>
               <ListItemButton  
-                selected={selectedIndex === 4}
-                onClick={(event) => {handleListItemClick(event, 4); navigate('profile')}}
+                selected={selectedIndex === 5}
+                onClick={(event) => {handleListItemClick(event, 5); navigate('profile')}}
               >
                 <ListItemIcon>                 
                   <CommentBankIcon />
@@ -251,19 +238,10 @@ export default function SearchAppBar({img, name, role}) {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' }, margin:0.1 }}
           >
-           {/* <img src={brand} alt="Bakeli" className='App-logo'  style={{borderRadius:20}}/> */}
           </Typography>
-          {/* <Search> */}
-            {/* <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            /> */}
-            {/* <Avatar onClick={()=>window.location.pathname=''}>H</Avatar> */}
+         
             <BadgeAvatars img={img} name={name}/>
-          {/* </Search> */}
+        
             
         </Toolbar>
       </AppBar>

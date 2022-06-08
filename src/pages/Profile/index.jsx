@@ -12,6 +12,7 @@ import { Grid,Paper, CssBaseline, Typography, Container, Avatar, styled,  Skelet
 import FormDetailPanel from '../../components/Table_cour';
 import BasicTabs from './profileTab';
 import moment from 'moment';
+import InfiniteScroll from 'react-infinite-scroller';
 
 
 
@@ -20,7 +21,7 @@ const Profile = ({userLogin}) => {
   const matches = useMediaQuery('(min-width:900px)');
   const urlImg = 'http://127.0.0.1:8000/api'
 
-  console.log(userLogin.id)
+ 
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
@@ -62,7 +63,7 @@ const Profile = ({userLogin}) => {
           </ListItem>
           <Divider light />
           
-    </List>
+      </List>
     )
 }
 
@@ -119,7 +120,7 @@ const Profile = ({userLogin}) => {
              </Grid>
          {/* </Box> */}
 
-     </Grid>
+         </Grid>
       
 
          ):(
@@ -127,17 +128,54 @@ const Profile = ({userLogin}) => {
        
           
           <Grid  container 
-           style={{ height:'50%', width:'initial'}} direction="column" maxWidth='xl'
-          >            
-             <Grid item   
-             >
-                <FormDetailPanel />  
-             </Grid>
-             <Grid item  sx={{marginTop:2, width:'100%'}}>
-                 <FormDetailPanel/>
-             </Grid>
+           style={{  width:'initial'}} direction="column" maxWidth='xl'
+           >      
+              <div>
+                  <InfiniteScroll
+                    pageStart={0}
+                    // loadMore='loadFunc'
+                    hasMore={false}
+                    loader={<div className="loader" key={0}>Loading ...</div>}
+                  
+                    // scrollableTarget="scrollableDiv"
+                  >
+                    
+                      
+                    
+                  <Grid item md={4} mt={1} alignItems='center'>
+                     <Grid sx={{background:'#fff'}} md={12} >
+                            
+                               
 
-           </Grid> 
+                          {userLogin?(
+                            <>
+                              <Typography variant='subtitle1' alignItems='center' sx={{p:2}} align='center'>
+                                <Avatar 
+                                    alt={userLogin.last_name} 
+                                    src={`${urlImg}${userLogin.image}`} 
+                                    sx={{ width: 150, height: 150, boxShadow:5, margin:'0px auto'}}
+                                />
+                              </Typography>
+                              
+                              {ListInfo1()}
+                            </>  
+                          ):(
+                            <Skeleton variant="circular" sx={{ width: 150, height: 150, boxShadow:5, border: '1px solid red',margin:'0px auto'}} />
+                          )} 
+ 
+                          
+                          <Divider variant='inset' flexItem />
+                     </Grid>
+                  </Grid>
+
+                 <Grid item md={8} mt={0} alignItems='center'>
+                     
+                         <BasicTabs userLogin={userLogin} />
+
+                 </Grid>    
+                  </InfiniteScroll>          
+              </div>
+          </Grid> 
 
          )}
     </Container>

@@ -322,119 +322,174 @@ const TableDisabled = ({disabledUser}) => {
         <>
         
           {mediaQuery?(
-            <List  component="div" disablePadding 
-                  sx={{ width: '100%', bgcolor: 'background.paper',borderBottom:'1px #f00 solid',   boxShadow: 1  }}
-                  
-                  style={{
-                  height: 300,
-                  overflow: 'auto',
-                  flexDirection: 'column-reverse',
-                  
-                  }}
-          > 
-              <CustomizedList />
+            <>
+              <List  component="div" disablePadding 
+                    sx={{ width: '100%', bgcolor: 'background.paper',borderBottom:'1px #f00 solid',   boxShadow: 1  }}
+                    
+                    style={{
+                    height: 300,
+                    overflow: 'auto',
+                    flexDirection: 'column-reverse',
+                    
+                    }}
+            > 
+                <CustomizedList />
 
-          </List>
+              </List>
+
+              <Grid container maxWidth='sm' sx={{background:'whhitesmoke', m:0}}>
+                <Grid item  sx={{p:0}} alignContent='flex-end'>
+                
+                      {mediaQuery ?(
+
+                          <Input
+                              id="input-with-icon-adornment"
+                              startAdornment={
+                                searchField ? (
+
+                                <InputAdornment position="start">
+                                  <IconButton onClick={()=>{setSearchField(searchField.toUpperCase()); filterSearch()} }>
+                                      <SearchRounded color='primary'/>
+                                  </IconButton>
+                                </InputAdornment>
+                                ):(
+                                  <InputAdornment position="start" disabled>
+                                  <IconButton disabled>
+                                      <SearchRounded />
+                                  </IconButton>
+                                </InputAdornment>
+                                )
+                              }
+                              endAdornment={
+                                searchField && <InputAdornment position="end">
+                                  <IconButton onClick={()=>{setSearchField('')} }>
+                                      <ClearIcon color='error' fontSize='small' />
+                                  </IconButton>
+                                </InputAdornment>
+                              }
+                              fullWidth={true}
+                              value={searchField}
+                              onChange={(e)=> {
+                                setSearchField(
+                                  e.target.value.replace(/[^\w\s]/gi, '')
+                                ); 
+                              }}
+                              sx={{ mt: 1, maxWidth: '60ch'}}
+                              placeholder='search.... Nom ou Prénom'
+                            />
+                              
+                          ):(
+
+                          <Input
+                              id="input-with-icon-adornment"
+                              startAdornment={
+                                searchField ? (
+
+                                <InputAdornment position="start">
+                                  <IconButton onClick={()=>{setSearchField(searchField.toUpperCase()); filterSearch()} }>
+                                      <SearchRounded color='primary'/>
+                                  </IconButton>
+                                </InputAdornment>
+                                ):(
+                                  <InputAdornment position="start" disabled>
+                                  <IconButton disabled>
+                                      <SearchRounded />
+                                  </IconButton>
+                                </InputAdornment>
+                                )
+                              }
+                              endAdornment={
+                                searchField && <InputAdornment position="end">
+                                  <IconButton onClick={()=>{setSearchField('')} }>
+                                      <ClearIcon color='error' fontSize='small' />
+                                  </IconButton>
+                                </InputAdornment>
+                              }
+                              fullWidth={true}
+                              value={searchField}
+                              onChange={(e)=> {
+                                setSearchField(
+                                  e.target.value.replace(/[^\w\s]/gi, '')
+                                ); 
+                              }}
+                              sx={{ mt: 1, maxWidth: '150%'}}
+                              placeholder='search.... Nom ou Prénom'
+                            />
+                              
+                          )
+                      }
+                </Grid>
+              </Grid>
+            </>
           ):(
             <List  component="div" disablePadding 
                   sx={{ width: '100%', bgcolor: 'background.paper',borderBottom:'1px #f00 solid',   boxShadow: 1  }}
                   
                   style={{
-                  height: 430,
+                  height: 330,
                   overflow: 'auto',
                   flexDirection: 'column-reverse',
                   
                   }}
           > 
-              <CustomizedList />
+             
+              {
+                disabledUser && disabledUser.map((data,index)=>{
+                  return(
+                    <>
+                    <InfiniteScroll
+                      pageStart={0}
+                      // loadMore='loadFunc'
+                      hasMore={false}
+                      loader={<div className="loader" key={0}>Loading ...</div>}                       
+                      // scrollabletarget="scrollableDiv"
+                    >
+                        <ListItem alignItems="flex-start" md={4} sx={{borderBottomColor:'red'}}>
+                            <ListItemAvatar key={index}>
+                            <Avatar alt={data.first_name.toUpperCase()} src={`http://127.0.0.1:8000/api${data.image}`} />
+                            </ListItemAvatar>
+                            <ListItemText 
+                            
+                            primary={Capitalize(data.first_name+' '+data.last_name)}
+                            secondary={
+                                <>
+                                <Typography
+                                      sx={{ display: 'inline' }}
+                                      component="span"
+                                      variant="body2"
+                                      color="text.primary"
+                                >
+                                      {data.role}
+                                </Typography>
+                                
+                                &nbsp;
+                                <Typography align='right' variant='overline' color='error' >
+                                  
+                                    <Switch   
+                                        checked={false}  
+                                        onChange={()=>handleClickOpen(data.id)} 
+                                        color='error'
+                                        title='Désactiver'
+                                        />
+                                </Typography>
+                                </>
+                            }
+                            />
+                            <Divider />
+                        </ListItem>
+                      
+                    </InfiniteScroll>
+                    <Divider variant="inset"  />
+                    </>
+                  )
+                })
+              }
 
-          </List>
+            </List>
           )}
           
         
-          <Grid container maxWidth='sm' sx={{background:'whhitesmoke', m:0}}>
-              <Grid item  sx={{p:0}} alignContent='flex-end'>
-              
-                    {mediaQuery ?(
-
-                        <Input
-                            id="input-with-icon-adornment"
-                            startAdornment={
-                              searchField ? (
-
-                              <InputAdornment position="start">
-                                <IconButton onClick={()=>{setSearchField(searchField.toUpperCase()); filterSearch()} }>
-                                    <SearchRounded color='primary'/>
-                                </IconButton>
-                              </InputAdornment>
-                              ):(
-                                <InputAdornment position="start" disabled>
-                                <IconButton disabled>
-                                    <SearchRounded />
-                                </IconButton>
-                              </InputAdornment>
-                              )
-                            }
-                            endAdornment={
-                              searchField && <InputAdornment position="end">
-                                <IconButton onClick={()=>{setSearchField('')} }>
-                                    <ClearIcon color='error' fontSize='small' />
-                                </IconButton>
-                              </InputAdornment>
-                            }
-                            fullWidth={true}
-                            value={searchField}
-                            onChange={(e)=> {
-                              setSearchField(
-                                e.target.value.replace(/[^\w\s]/gi, '')
-                              ); 
-                            }}
-                            sx={{ mt: 1, maxWidth: '60ch'}}
-                            placeholder='search.... Nom ou Prénom'
-                          />
-                            
-                        ):(
-
-                        <Input
-                            id="input-with-icon-adornment"
-                            startAdornment={
-                              searchField ? (
-
-                              <InputAdornment position="start">
-                                <IconButton onClick={()=>{setSearchField(searchField.toUpperCase()); filterSearch()} }>
-                                    <SearchRounded color='primary'/>
-                                </IconButton>
-                              </InputAdornment>
-                              ):(
-                                <InputAdornment position="start" disabled>
-                                <IconButton disabled>
-                                    <SearchRounded />
-                                </IconButton>
-                              </InputAdornment>
-                              )
-                            }
-                            endAdornment={
-                              searchField && <InputAdornment position="end">
-                                <IconButton onClick={()=>{setSearchField('')} }>
-                                    <ClearIcon color='error' fontSize='small' />
-                                </IconButton>
-                              </InputAdornment>
-                            }
-                            fullWidth={true}
-                            value={searchField}
-                            onChange={(e)=> {
-                              setSearchField(
-                                e.target.value.replace(/[^\w\s]/gi, '')
-                              ); 
-                            }}
-                            sx={{ mt: 1, maxWidth: '150%'}}
-                            placeholder='search.... Nom ou Prénom'
-                          />
-                            
-                        )
-                    }
-              </Grid>
-          </Grid>
+          
         </>
         ):(
             <Box sx={{m:10}}>

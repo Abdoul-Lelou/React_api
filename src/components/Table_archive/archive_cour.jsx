@@ -32,6 +32,8 @@ import { ToastContainer,toast  } from 'react-toastify';
   const [courArchive, setCourArchive] = React.useState('')
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+  const matches = useMediaQuery('(min-width:900px)');
+
 
   const Toast = Swal.mixin({
     toast: true,
@@ -168,7 +170,8 @@ import { ToastContainer,toast  } from 'react-toastify';
               })
               
             ):(
-              courArchive && courArchive.map((data,index)=>{
+              matches?(
+                courArchive && courArchive.map((data,index)=>{
                 return(
                   <Accordion expanded={expanded=== index} onChange={handleChange(index)} id="scrollableDiv">
                     <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
@@ -226,6 +229,68 @@ import { ToastContainer,toast  } from 'react-toastify';
                   </Accordion>
                 )
               })
+              ):(
+                courArchive && courArchive.map((data,index)=>{
+                return(
+                <div style={{maxWidth:280}}>
+                  <Accordion expanded={expanded=== index} onChange={handleChange(index)} id="scrollableDiv">
+                    <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+                      <Typography>{data.nom} 
+                        <Typography variant='subtitle2' align='right'>{data.date_cour}</Typography>
+                      </Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Typography noWrap>
+                       {data.description}
+                      </Typography>
+                      <ButtonGroup disableElevation variant="contained">
+                        
+                        {
+                          role ==='admin'?(
+
+                            <>
+                              <IconButton 
+                                color='warning'
+                                onClick={()=>{setOpenArchive(true); setidArchive(data.id)}}
+                                >
+                                  <UnarchiveIcon color='warning'/>
+                                </IconButton>
+
+                                <IconButton 
+                                  color='error'
+                                  onClick={()=>{setOpenDelete(true); setidArchive(data.id)}}
+                                  >
+                                    <DeleteIcon color='error'/>
+                                </IconButton>
+                            </>
+                            
+                          ):(
+                            <>
+                              <IconButton 
+                                color='warning'
+                                disabled={true}
+                                >
+                                  <UnarchiveIcon disabled={true}/>
+                              </IconButton>
+
+                              <IconButton 
+                                  color='error'
+                                  disabled={true}
+                                  >
+                                    <DeleteIcon  disabled={true}/>
+                                </IconButton>
+
+                              </>
+                          )
+                        }
+                        
+                      </ButtonGroup>
+                    </AccordionDetails>
+                  </Accordion>
+                </div>
+                )
+              })
+              )
             )
 
 

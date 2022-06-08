@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Avatar, Button, ButtonGroup, CssBaseline, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Grid, IconButton, Input, InputAdornment, List, ListItem, ListItemAvatar, ListItemText, Typography } from '@mui/material';
+import { Avatar, Button, ButtonGroup, Chip, CssBaseline, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Grid, IconButton, Input, InputAdornment, List, ListItem, ListItemAvatar, ListItemText, Typography, useMediaQuery } from '@mui/material';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Box } from '@mui/system';
 import UnarchiveIcon from '@mui/icons-material/Unarchive';
@@ -33,6 +33,9 @@ export default function ArchiveProffesseur() {
   const [idArchive, setidArchive] = React.useState(''); 
   const [searchField, setSearchField] = React.useState('');
   const [dataSearch, setdataSearch] = React.useState('')
+
+  const matches = useMediaQuery('(min-width:900px)');
+
 
   React.useEffect(() => {
    getArchive();
@@ -236,6 +239,8 @@ export default function ArchiveProffesseur() {
     
     return (
       <>
+          {/* <Divider><Chip clickable label='Professeur'/></Divider> */}
+
       <div>
         
         <InfiniteScroll
@@ -319,10 +324,8 @@ export default function ArchiveProffesseur() {
                 <>
                 <InfiniteScroll
                     pageStart={0}
-                    // loadMore='loadFunc'
                     hasMore={false}
                     loader={<div className="loader" key={0}>Loading ...</div>}                       
-                    // scrollabletarget="scrollableDiv"
                   >
                     <ListItem alignItems="flex-start"  key={index} sx={{m:-1.5}}>
                       <ListItemAvatar >
@@ -396,8 +399,10 @@ export default function ArchiveProffesseur() {
     {
       archive && archive.length >0 ?(
         <>
-        
-          <List  component="div" disablePadding sx={{ width: '100%', bgcolor: 'background.paper',   boxShadow: 2  }}
+          
+          {
+            matches ?(
+              <List  component="div" disablePadding sx={{ width: '100%', bgcolor: 'background.paper',   boxShadow: 2  }}
                   
                   style={{
                   height: 300,
@@ -405,13 +410,33 @@ export default function ArchiveProffesseur() {
                   flexDirection: 'column-reverse',
                   }}
           > 
-
               <CustomizedList />
 
           </List>
+            ):(
+              <>
+              <Divider sx={{mb:1}}><Chip clickable label='PROFESSEURS' color='success'/></Divider>
+              <List  component="div" disablePadding sx={{ width: '100%', bgcolor: 'background.paper',   boxShadow: 2  }}
+                  
+                  style={{
+                  height: 250,
+                  overflow: 'auto',
+                  flexDirection: 'column-reverse',
+                  }}
+          > 
+              
+              <>   
+              
+              <CustomizedList />
+              </>
+
+              </List>
+              </>
+            )
+          }
         
           <Grid container maxWidth='sm' sx={{background:'whhitesmoke', m:1}}>
-              <Grid item  sx={{p:0}} alignContent='flex-end'>
+              <Grid item  sx={{p:1}} alignContent='flex-end'>
               
                     <Input
                         id="input-with-icon-adornment"
@@ -466,19 +491,17 @@ export default function ArchiveProffesseur() {
       <ArchiveDialog/>
       <DeleteDialog/>
       <ToastContainer
-            position="top-right"
-            autoClose={2000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            />
-            {/* Same as */}
-      <ToastContainer />
-
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        />
+           
      
   </>
   );
